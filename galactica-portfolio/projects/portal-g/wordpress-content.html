@@ -1,0 +1,403 @@
+<section id="pg-portal">
+<style>
+/* ========================================
+   PORTAL G v0.2 — CHARTS EDITION
+   ======================================== */
+#pg-portal {
+    --accent: #a879ff;
+    --muted: #a8a5b2;
+    --background: #151518;
+    --panel: #1c1c20;
+    --border: #35343c;
+    background: var(--background);
+    color: #f5f3fa;
+    font-family: Inter, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: clamp(16px, 3vw, 40px);
+    border-radius: 16px;
+    max-width: 1440px;
+    margin: auto;
+}
+#pg-portal * {
+    box-sizing: border-box;
+}
+#pg-portal h1,
+#pg-portal h2,
+#pg-portal h3 {
+    color: inherit;
+    margin: 0 0 12px;
+}
+#pg-portal a {
+    color: inherit;
+    text-decoration: none;
+}
+/* NAVIGATION */
+#pg-portal nav,
+#pg-portal .pg-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#pg-portal nav {
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 18px;
+}
+#pg-portal nav a:hover {
+    color: var(--accent);
+}
+#pg-portal .pg-brand {
+    font-size: 27px;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+#pg-portal .pg-brand b {
+    color: var(--accent);
+}
+/* HERO */
+#pg-portal .pg-hero {
+    margin: 24px 0;
+    padding: clamp(24px, 5vw, 65px);
+    border: 1px solid #46365f;
+    border-radius: 14px;
+    background:
+        radial-gradient(
+            ellipse at 85% 20%,
+            #49316e,
+            transparent 60%
+        ),
+        #15111f;
+}
+#pg-portal .pg-hero h1 {
+    font-size: clamp(30px, 5vw, 58px);
+    line-height: 1.1;
+}
+#pg-portal .pg-kicker {
+    color: #c3a5ff;
+    letter-spacing: 2px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+/* BUTTONS */
+#pg-portal .pg-button,
+#pg-portal button,
+#pg-portal select {
+    display: inline-block;
+    background: #25232c;
+    color: #fff;
+    border: 1px solid #554369;
+    padding: 10px 15px;
+    border-radius: 7px;
+    font: inherit;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+#pg-portal .pg-button,
+#pg-portal button[aria-pressed="true"] {
+    background: #7548bc;
+    border-color: #a879ff;
+}
+#pg-portal button:hover,
+#pg-portal .pg-button:hover {
+    background: #905fe0;
+}
+/* PANELS */
+#pg-portal .pg-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+#pg-portal .pg-muted {
+    color: var(--muted);
+}
+/* STATISTICS */
+#pg-portal .pg-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+}
+#pg-portal .pg-stat {
+    background: #25252b;
+    border: 1px solid #383740;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform .25s ease;
+}
+#pg-portal .pg-stat:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+}
+#pg-portal .pg-stat strong {
+    display: block;
+    font-size: 32px;
+    color: #d1b5ff;
+}
+/* TRACK COVERS */
+#pg-portal .pg-cover {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 5px;
+    object-fit: cover;
+    display: inline-block;
+    background: radial-gradient(
+        circle,
+        #b895ff 5%,
+        #312442 7%,
+        #312442 15%,
+        #7652aa 17%,
+        #23232b 19%,
+        #23232b 29%,
+        #7652aa 31%,
+        #23232b 33%
+    );
+}
+#pg-portal .pg-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 180px;
+}
+/* RANKINGS */
+#pg-portal table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    color: inherit;
+}
+#pg-portal th,
+#pg-portal td {
+    text-align: left;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 13px 8px;
+    background: transparent;
+    color: inherit;
+}
+#pg-portal th:last-child,
+#pg-portal td:last-child {
+    text-align: right;
+}
+#pg-portal tbody tr {
+    transition: background .2s ease;
+}
+#pg-portal tbody tr:hover {
+    background: #292433;
+}
+#pg-portal .pg-scroll {
+    overflow-x: auto;
+}
+/* ANIMATED CHARTS */
+#pg-portal .pg-meter {
+    height: 6px;
+    background: #39383f;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 7px;
+    min-width: 70px;
+}
+#pg-portal .pg-meter i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #7548bc,
+        #ba94ff
+    );
+    border-radius: 10px;
+    transform-origin: left;
+    animation: pgGrow .75s ease-out both;
+}
+@keyframes pgGrow {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+#pg-portal .pg-graph {
+    display: grid;
+    gap: 12px;
+    margin: 14px 0 24px;
+}
+#pg-portal .pg-graph-row {
+    display: grid;
+    grid-template-columns:
+        minmax(90px, 1fr)
+        minmax(90px, 2fr)
+        40px;
+    gap: 12px;
+    align-items: center;
+}
+#pg-portal .pg-graph-row span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#pg-portal .pg-graph-row .pg-meter {
+    margin: 0;
+    height: 12px;
+}
+/* DISCOVERY SECTIONS */
+#pg-portal .pg-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+}
+#pg-portal .pg-grid article {
+    background: #202024;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 25px;
+    transition: all .25s ease;
+}
+#pg-portal .pg-grid article:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+}
+#pg-portal input {
+    max-width: 100%;
+    color: inherit;
+}
+/* ACCESSIBILITY */
+#pg-portal a:focus-visible,
+#pg-portal button:focus-visible,
+#pg-portal select:focus-visible {
+    outline: 2px solid #c3a5ff;
+    outline-offset: 3px;
+}
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    #pg-portal nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #pg-portal .pg-panel {
+        padding: 14px;
+    }
+    #pg-portal .pg-stat strong {
+        font-size: 25px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    #pg-portal .pg-meter i {
+        animation: none;
+    }
+    #pg-portal * {
+        transition: none !important;
+    }
+}
+</style>
+<!-- NAVIGATION -->
+<nav>
+        PORTAL <b>G</b>
+        <a href="/live-radio/">Live Radio</a>
+        <a href="#pg-charts">Charts</a>
+        <a href="#pg-discover">Discover</a>
+        <a href="#pg-clubs">Clubs</a>
+        <a href="#pg-tools">DJ Tools</a>
+</nav>
+<!-- HERO -->
+    <p>
+        Underground Music Intelligence
+    </p>
+    <h1>Music beyond the mainstream.</h1>
+    <p>
+        Discover music. Explore trends.
+        Connect with the underground.
+    </p>
+    <a href="/live-radio/">
+        &#9654; Open Live Radio
+    </a>
+<!-- CHARTS ENGINE -->
+    <p>
+        Powered by tracklists
+    </p>
+    <h2>Underground Charts</h2>
+    <p id="pg-status">
+        Demo catalogue · Staging preview
+    </p>
+        <button type="button"
+                data-chart="tracks"
+                aria-pressed="true">
+            Tracks
+        </button>
+        <button type="button"
+                data-chart="artists"
+                aria-pressed="false">
+            Artists
+        </button>
+        <button type="button"
+                data-chart="labels"
+                aria-pressed="false">
+            Labels
+        </button>
+        <select id="pg-period"
+                aria-label="Chart period">
+            <option value="all">All time</option>
+            <option value="30">Last 30 days</option>
+            <option value="7">Last 7 days</option>
+        </select>
+    <!-- DYNAMIC COUNTERS -->
+    <!-- TOP 5 GRAPH -->
+    <h3>Top 5 · Selection frequency</h3>
+    <!-- RANKING TABLE -->
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th id="pg-heading">Track</th>
+                    <th>Selections</th>
+                </tr>
+            </thead>
+            <tbody id="pg-results"></tbody>
+        </table>
+    <p>
+        Rankings based on distinct DJ sets,
+        not listener plays or popularity votes.
+    </p>
+    <!-- TEST CATALOGUE IMPORT -->
+    <details>
+        <summary>Import test catalogue</summary>
+        <p>
+            Local preview only. No files are
+            uploaded or saved to WordPress.
+        </p>
+        <input type="file"
+               id="pg-import"
+               accept=".json,application/json">
+    </details>
+<!-- FUTURE SECTIONS -->
+    <article id="pg-discover">
+        <p>Discover · Coming soon</p>
+        <h3>Fresh Frequencies</h3>
+        <p>
+            Promos, guest sessions and
+            underground discoveries.
+        </p>
+    </article>
+    <article id="pg-clubs">
+        <p>Clubs · Coming soon</p>
+        <h3>Club Network</h3>
+        <p>
+            Independent venues, events
+            and resident DJs.
+        </p>
+    </article>
+    <article id="pg-tools">
+        <p>Tools · Coming soon</p>
+        <h3>DJ Tools</h3>
+        <p>
+            Tracklist Creator, music analytics
+            and discovery tools.
+        </p>
+    </article>
+</section>

@@ -1,0 +1,1338 @@
+<!-- wp:html -->
+<div id="gxOrbitLab" class="gxol">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@font-face{font-family:GXEthno;src:url('https://noebortolussi.com/wp-content/uploads/2026/06/Ethnocentric-Regular.otf') format('opentype');font-display:swap}
+#gxOrbitLab{--ink:#f6f2ff;--muted:#aaa7c2;--edge:rgba(165,136,249,.22);--blue:#6abaff;--violet:#bd82ff;position:relative;isolation:isolate;min-height:100vh;width:100%;overflow:hidden;color:var(--ink);background:radial-gradient(ellipse 62% 35% at 68% 19%,rgba(75,51,161,.21),transparent),radial-gradient(ellipse 40% 30% at 8% 67%,rgba(36,75,147,.15),transparent),linear-gradient(180deg,#070915 0%,#0a0c21 60%,#060916 100%);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+#gxOrbitLab *{box-sizing:border-box}#gxOrbitLab a{color:inherit;text-decoration:none}#gxOrbitLab button{cursor:pointer;color:inherit;font:inherit}
+#gxOrbitLab .starfield{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.58) .65px,transparent 1.2px),radial-gradient(circle,rgba(158,117,255,.64) .65px,transparent 1.5px);background-size:143px 137px,271px 221px;background-position:19px 38px,90px 110px;opacity:.35;z-index:-1;pointer-events:none}
+#gxOrbitLab .shell{width:min(1440px,calc(100% - 64px));margin:0 auto}
+#gxOrbitLab header.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:27px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+#gxOrbitLab .brand{display:grid;gap:6px}#gxOrbitLab .brand strong{font:400 clamp(1.3rem,2.6vw,2rem)/1 GXEthno,Arial;letter-spacing:.03em;text-shadow:0 0 28px rgba(159,118,255,.3)}
+#gxOrbitLab .brand span{font:600 .62rem 'JetBrains Mono',monospace;letter-spacing:.55em;color:#b8a2ff}
+#gxOrbitLab .topnav{display:flex;gap:27px;font:600 .64rem 'JetBrains Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:#bdbbd2}#gxOrbitLab .topnav a:first-child{color:#f8f4ff;border-bottom:1px solid #9a71ff;padding-bottom:9px}
+#gxOrbitLab .chip{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(158,117,255,.5);border-radius:30px;padding:11px 16px;background:rgba(80,56,156,.13);font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.08em;white-space:nowrap}
+#gxOrbitLab .chip i,#gxOrbitLab .kicker i{width:7px;height:7px;border-radius:50%;background:#af79ff;box-shadow:0 0 17px #9b6aff}
+#gxOrbitLab .hero{display:grid;grid-template-columns:minmax(0,.87fr) minmax(300px,1.13fr);align-items:center;gap:12px;padding:42px 0 28px;min-height:440px}
+#gxOrbitLab .kicker{display:flex;align-items:center;gap:11px;color:#c09bff;font:700 .68rem 'JetBrains Mono',monospace;letter-spacing:.24em;text-transform:uppercase}
+#gxOrbitLab h1,#gxOrbitLab h2,#gxOrbitLab h3,#gxOrbitLab p{margin-top:0}
+#gxOrbitLab .hero h1{font:400 clamp(2.15rem,4.8vw,4.6rem)/1.06 GXEthno,Arial;margin:20px 0;color:#fff;text-shadow:0 0 36px rgba(129,102,220,.28)}
+#gxOrbitLab .hero h1 em{font-style:normal;color:#a6b6ff}
+#gxOrbitLab .hero-copy{position:relative;z-index:3}
+#gxOrbitLab .hero-copy p{max-width:420px;color:#c5c0d9;font-size:1rem;line-height:1.72}
+#gxOrbitLab .hero .promise{display:grid;gap:9px;margin-top:30px;color:#d8d5e8;font:600 .65rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}#gxOrbitLab .promise span:before{content:'✧';color:#bf85ff;margin-right:12px}
+#gxOrbitLab .orb-stage{position:relative;max-width:650px;width:100%;height:440px;margin:auto}
+#gxOrbitLab #gxOrbCanvas{display:block;position:absolute;inset:0;width:100%;height:100%}
+#gxOrbitLab .orb-halo{position:absolute;inset:12% 18%;border:1px solid rgba(158,135,246,.21);border-radius:50%;box-shadow:0 0 90px rgba(101,72,227,.13);pointer-events:none}
+#gxOrbitLab .lab-flag{display:inline-block;background:rgba(150,99,253,.12);border:1px solid rgba(173,125,255,.34);border-radius:100px;padding:8px 13px;color:#d3bbff;font:600 .6rem 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
+#gxOrbitLab .panel{background:linear-gradient(135deg,rgba(24,22,53,.94),rgba(11,17,37,.86));border:1px solid var(--edge);border-radius:16px;box-shadow:0 22px 66px rgba(0,0,0,.18);overflow:hidden}
+#gxOrbitLab .broadcast{padding:26px 28px 21px;margin-top:-13px;position:relative;z-index:4;border-color:rgba(177,125,255,.4)}
+#gxOrbitLab .broadcast-top{display:flex;justify-content:space-between;gap:20px;align-items:start}
+#gxOrbitLab .micro{font:600 .62rem 'JetBrains Mono',monospace;letter-spacing:.16em;color:#b98cff;text-transform:uppercase}
+#gxOrbitLab .broadcast h2{font:400 clamp(1.25rem,2.2vw,2.25rem)/1.23 GXEthno,Arial;margin:11px 0 10px}
+#gxOrbitLab .secondary{font-size:.87rem;line-height:1.5;color:#b8b5d1}
+#gxOrbitLab .status{display:flex;align-items:center;gap:8px;font:600 .62rem 'JetBrains Mono',monospace;color:#e6d5ff;letter-spacing:.08em;white-space:nowrap}
+#gxOrbitLab .status:before{content:'';height:7px;width:7px;background:#c091ff;border-radius:50%;box-shadow:0 0 14px #b77aff}
+#gxOrbitLab .wave-wrap{position:relative;height:125px;padding:8px 0 0}
+#gxOrbitLab #gxWaveCanvas{width:100%;height:106px;display:block}
+#gxOrbitLab .wave-caption{font:500 .58rem 'JetBrains Mono',monospace;letter-spacing:.08em;color:#777c9d;position:absolute;right:2px;bottom:0}
+#gxOrbitLab .control-strip{display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:1px solid rgba(176,137,247,.16);padding-top:17px;margin-top:13px}
+#gxOrbitLab .controls{display:flex;gap:16px;align-items:center}
+#gxOrbitLab .button-main{width:52px;height:52px;border-radius:50%;border:1px solid rgba(179,142,255,.65);background:radial-gradient(circle,rgba(140,94,255,.42),rgba(39,30,95,.55));font-size:1.1rem;box-shadow:0 0 30px rgba(129,94,248,.23)}
+#gxOrbitLab .control-note{font:.68rem 'JetBrains Mono',monospace;color:#b3b5d0}
+#gxOrbitLab .control-note strong{display:block;color:#f0e8ff;margin-bottom:5px}
+#gxOrbitLab .open-radio{border:1px solid rgba(144,115,236,.55);border-radius:100px;padding:13px 17px;display:inline-block;font:700 .61rem 'JetBrains Mono',monospace;letter-spacing:.06em;white-space:nowrap;background:rgba(95,63,179,.14)}
+#gxOrbitLab .mod-grid{display:grid;grid-template-columns:1.18fr 1fr 1fr;gap:19px;margin-top:20px}
+#gxOrbitLab .panel-pad{padding:23px}
+#gxOrbitLab .mod-grid h3,#gxOrbitLab .lower h3{font:400 clamp(.86rem,1.2vw,1.18rem)/1.35 GXEthno,Arial;margin:0 0 21px}
+#gxOrbitLab .display-name{font-size:1.2rem;font-weight:600;margin:17px 0 5px}
+#gxOrbitLab .mini-card{padding:14px 0;border-top:1px solid rgba(255,255,255,.08)}
+#gxOrbitLab .mini-card strong{display:block;margin-bottom:5px;font-size:.9rem}
+#gxOrbitLab .mini-card small{font:500 .65rem 'JetBrains Mono',monospace;color:#9796b1}
+#gxOrbitLab .card-meta{color:#bbb1da;font:500 .63rem 'JetBrains Mono',monospace;line-height:1.7}
+#gxOrbitLab .signal{display:flex;align-items:center;gap:11px;margin-top:18px;color:#b8bbda;font:600 .68rem 'JetBrains Mono',monospace}
+#gxOrbitLab .signal b{color:#a88dff;font-size:1.4rem}
+#gxOrbitLab .lower{display:grid;grid-template-columns:1.08fr 1fr 1.08fr;gap:19px;margin-top:20px}
+#gxOrbitLab .countdown{font:400 clamp(1.55rem,2.7vw,2.6rem)/1.15 GXEthno,Arial;color:#d7b6ff;margin:20px 0 8px}
+#gxOrbitLab .world{height:125px;position:relative;overflow:hidden;margin:12px 0;border-radius:14px;background:radial-gradient(ellipse at center,rgba(67,90,180,.21),transparent 72%)}
+#gxOrbitLab #gxWorldCanvas{height:100%;width:100%;display:block}
+#gxOrbitLab .explain{display:grid;gap:13px;color:#d1cde2;font-size:.86rem;line-height:1.5}
+#gxOrbitLab .explain span:before{content:'✓';color:#b483ff;margin-right:10px}
+#gxOrbitLab .lower .note{color:#afaac9;font-size:.83rem;line-height:1.65}
+#gxOrbitLab .chat-demo{min-height:115px;padding:17px;border:1px dashed rgba(169,123,255,.24);border-radius:11px;font:.75rem/1.7 'JetBrains Mono',monospace;color:#9d9abb}
+#gxOrbitLab .timezone{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:25px 0;margin-top:28px;border-top:1px solid rgba(167,123,255,.22);font:500 .65rem 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em}
+#gxOrbitLab .city{display:grid;gap:7px}#gxOrbitLab .city strong{font-size:.82rem;color:#edebff}
+#gxOrbitLab .foot{display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(255,255,255,.06);padding:22px 0 36px;color:#8786a4;font:.61rem 'JetBrains Mono',monospace;letter-spacing:.08em}
+@media(max-width:1050px){#gxOrbitLab .mod-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#gxOrbitLab .mod-grid .panel:last-child{grid-column:1/-1}#gxOrbitLab .lower{grid-template-columns:repeat(2,minmax(0,1fr))}#gxOrbitLab .lower .panel:last-child{grid-column:1/-1}#gxOrbitLab .topnav{display:none}}
+@media(max-width:680px){#gxOrbitLab .shell{width:calc(100% - 34px)}#gxOrbitLab header.top{padding:20px 0}#gxOrbitLab .brand strong{font-size:1.22rem}#gxOrbitLab .top .chip{font-size:.54rem;padding:10px}#gxOrbitLab .hero{grid-template-columns:1fr;padding:43px 0 0;gap:0;min-height:0}#gxOrbitLab .hero h1{font-size:clamp(2.15rem,9vw,3.5rem)}#gxOrbitLab .hero p{font-size:.94rem}#gxOrbitLab .hero .promise{gap:11px;font-size:.58rem}#gxOrbitLab .orb-stage{height:340px;margin-top:-5px}#gxOrbitLab .broadcast{margin-top:-4px;padding:23px 17px}#gxOrbitLab .broadcast-top{flex-wrap:wrap}#gxOrbitLab .broadcast h2{font-size:1.35rem}#gxOrbitLab .wave-wrap{height:103px}#gxOrbitLab #gxWaveCanvas{height:88px}#gxOrbitLab .control-strip{flex-wrap:wrap}#gxOrbitLab .open-radio{width:100%;text-align:center}#gxOrbitLab .mod-grid,#gxOrbitLab .lower{grid-template-columns:1fr;gap:14px;margin-top:14px}#gxOrbitLab .mod-grid .panel:last-child,#gxOrbitLab .lower .panel:last-child{grid-column:auto}#gxOrbitLab .timezone{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}#gxOrbitLab .foot{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .starfield{opacity:.25}}
+
+#gxOrbitLab .gxol-cover-orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:31%;max-width:150px;aspect-ratio:1;z-index:3;display:grid;place-items:center;border:1px solid #aa94ff;border-radius:50%;box-shadow:0 0 0 8px rgba(135,110,255,.13),0 0 40px rgba(108,79,238,.55);overflow:hidden;pointer-events:none}
+#gxOrbitLab .gxol-orb-img{position:absolute;inset:0;background:radial-gradient(circle,#533b9a,#0c0d32);background-size:cover;background-position:center;filter:brightness(.72)}
+#gxOrbitLab .gxol-cover-orbit span{font:400 clamp(.48rem,1vw,.78rem) GXEthno,sans-serif;position:relative;z-index:2;text-shadow:0 0 12px #000,0 0 15px #9f76ff}
+#gxOrbitLab .gxol-cover-title{display:flex;gap:17px;align-items:center;min-width:0}#gxOrbitLab .gxol-cover-title>div:last-child{min-width:0}
+#gxOrbitLab .gxol-cover-mini{width:96px;height:96px;flex:none;display:grid;place-items:center;border:1px solid rgba(170,135,255,.5);border-radius:12px;background:radial-gradient(circle,#3a3183,#141032);background-position:center;background-size:cover;font:400 .42rem GXEthno,sans-serif}
+#gxOrbitLab .wave-wrap{height:178px}#gxOrbitLab #gxWaveCanvas{display:none}#gxOrbitLab #gxolWavePlus{display:block;width:100%;height:154px;filter:drop-shadow(0 0 12px rgba(135,91,245,.2))}
+#gxOrbitLab .gxol-upload{display:block;cursor:pointer;padding:16px 10px;border:1px dashed rgba(176,142,247,.5);border-radius:11px;background:rgba(91,60,186,.12);text-align:center;font:700 .66rem 'JetBrains Mono',monospace;color:#e2ceff;margin:14px 0}
+#gxOrbitLab #gxolAudioFile{position:absolute;width:1px;height:1px;opacity:0}#gxOrbitLab .gxol-vote{margin-top:23px;border-top:1px solid rgba(166,132,247,.19);padding-top:23px}
+#gxOrbitLab .gxol-vote h3{font-size:.85rem}#gxOrbitLab .gxol-vote button{background:rgba(107,73,203,.13);border:1px solid rgba(171,129,255,.38);border-radius:10px;padding:13px;color:#e3cbff;font:.64rem 'JetBrains Mono',monospace}
+#gxOrbitLab .gxol-vote button[aria-pressed=true]{background:rgba(132,94,234,.4)}
+#gxOrbitLab .gxol-vote small{display:block;color:#8e90ae;font:.6rem 'JetBrains Mono',monospace;margin-top:12px}
+#gxOrbitLab .gxol-community{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,.77fr) minmax(0,1.23fr);gap:22px;padding:25px;min-height:570px;margin-top:20px;background:rgba(9,11,30,.92)}
+#gxOrbitLab #gxolMissionCanvas{position:absolute;z-index:-1;inset:0;width:100%;height:100%}
+#gxOrbitLab .gxol-mission-left{padding:21px 5px;max-width:330px}#gxOrbitLab .gxol-mission-left h2{font:400 clamp(1.2rem,2.2vw,2.3rem)/1.17 GXEthno,sans-serif;margin:21px 0}#gxOrbitLab .gxol-mission-left p{color:#bab6db;line-height:1.6;font-size:.9rem}
+#gxOrbitLab #gxolSignal{display:inline-block;color:#a7c5ff;font:.65rem 'JetBrains Mono',monospace;padding:11px 0}
+#gxOrbitLab .gxol-chat{min-width:0;min-height:510px;background:rgba(9,12,31,.6);border:1px solid rgba(200,170,255,.26);border-radius:14px;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);display:flex;flex-direction:column}
+#gxOrbitLab .gxol-chat-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:21px;border-bottom:1px solid rgba(174,129,255,.13)}
+#gxOrbitLab .gxol-chat-head h3{font:400 1rem GXEthno,sans-serif;margin:10px 0 0}#gxOrbitLab .gxol-chat-head>span{color:#a2c8ff;font:.55rem 'JetBrains Mono',monospace;white-space:nowrap}
+#gxOrbitLab .gxol-chat-msgs{flex:1;max-height:370px;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:13px;color:#bab6d2}
+#gxOrbitLab .gxol-message{display:flex;align-items:start;gap:11px}#gxOrbitLab .gxol-avatar{width:32px;height:32px;flex:none;border-radius:50%;background:#382c71;display:grid;place-items:center;overflow:hidden}
+#gxOrbitLab .gxol-avatar img{width:100%;height:100%;object-fit:cover}#gxOrbitLab .gxol-message strong{font:.68rem 'JetBrains Mono',monospace;color:#ddd0ff}#gxOrbitLab .gxol-message span{display:block;margin-top:5px;white-space:pre-wrap;overflow-wrap:anywhere;font:.82rem/1.5 Arial,sans-serif}
+#gxOrbitLab .gxol-chat-form{display:flex;margin:0 15px 7px;border:1px solid rgba(171,143,244,.3);border-radius:10px;background:rgba(10,13,33,.75)}
+#gxOrbitLab .gxol-chat-form input{flex:1;min-width:0;border:0;outline:none;background:transparent;color:#fff;padding:14px;font:.8rem Arial,sans-serif}#gxOrbitLab .gxol-chat-form button{border:0;background:transparent;color:#bda8ff;padding:12px 16px;font-size:1.3rem}
+#gxOrbitLab #gxolChatHelp{color:#9d97bb;font:.57rem 'JetBrains Mono',monospace;padding:5px 19px 14px}
+@media(max-width:690px){#gxOrbitLab .gxol-community{grid-template-columns:1fr;gap:10px;min-height:650px;padding:14px}#gxOrbitLab .gxol-mission-left{padding:15px 5px;max-width:none}#gxOrbitLab .gxol-mission-left h2{font-size:1.4rem;margin:12px 0}#gxOrbitLab .gxol-chat{min-height:420px}#gxOrbitLab .gxol-chat-msgs{max-height:280px;min-height:200px}#gxOrbitLab .gxol-cover-mini{height:65px;width:65px;font-size:.3rem}#gxOrbitLab .gxol-cover-title{gap:10px}#gxOrbitLab .wave-wrap{height:144px}#gxOrbitLab #gxolWavePlus{height:120px}}
+
+#gxOrbitLab .gxol-mode-status{display:inline-flex;gap:3px;align-items:stretch;padding:5px;border:1px solid rgba(161,128,242,.32);border-radius:12px;background:rgba(15,15,40,.78);margin:16px 0 5px}
+#gxOrbitLab .gxol-mode-tag{display:grid;gap:5px;padding:12px 18px;border-radius:9px;color:#8d92b1;font:600 .62rem 'JetBrains Mono',monospace;letter-spacing:.08em;transition:background .2s,color .2s}#gxOrbitLab .gxol-mode-tag span{font-size:.66rem}#gxOrbitLab .gxol-mode-tag strong{font-size:.54rem;opacity:.85}
+#gxOrbitLab .gxol-mode-tag.active{background:linear-gradient(115deg,rgba(122,80,215,.36),rgba(56,88,177,.24));color:#f4e9ff;box-shadow:0 0 24px rgba(129,93,245,.15)}
+#gxOrbitLab .gxol-onair-left{display:flex;align-items:center;gap:18px;min-width:0}#gxOrbitLab .gxol-onair-left>div:last-child{min-width:0}
+#gxOrbitLab .gxol-now-artwork{width:92px;height:92px;flex:none;border:1px solid rgba(175,129,250,.47);border-radius:14px;background:radial-gradient(circle,#32235d,#11152d);background-size:cover;background-position:center;display:grid;place-items:center;box-shadow:0 0 32px rgba(108,84,207,.2)}
+#gxOrbitLab .gxol-now-artwork span{font:400 .43rem GXEthno,Arial;text-shadow:0 0 12px #000}
+#gxOrbitLab .gxol-current-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}#gxOrbitLab .gxol-current-actions a,#gxOrbitLab .gxol-current-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:8px 14px;color:#e4d4ff!important;background:rgba(96,71,174,.14);border:1px solid rgba(172,137,245,.31);border-radius:9px;font:700 .6rem 'JetBrains Mono',monospace;letter-spacing:.08em}
+#gxOrbitLab .gxol-current-actions [hidden]{display:none!important}
+#gxOrbitLab .gxol-original-zone{margin-top:22px;border:1px solid rgba(145,131,247,.29);border-radius:15px;padding:20px;background:linear-gradient(155deg,rgba(18,17,44,.85),rgba(8,13,31,.94))}
+#gxOrbitLab .gxol-original-heading{display:flex;justify-content:space-between;gap:25px;align-items:center;margin-bottom:18px}
+#gxOrbitLab .gxol-original-heading h2{font:400 clamp(.85rem,1.7vw,1.6rem)/1.3 GXEthno,Arial;margin:10px 0}#gxOrbitLab .gxol-original-heading p{font:.83rem/1.5 Arial;color:#b4b2d2;margin:0}
+#gxOrbitLab .gxol-original-heading>a{flex:none;padding:12px 14px;border:1px solid rgba(177,136,255,.35);border-radius:100px;font:700 .59rem 'JetBrains Mono',monospace}
+#gxOrbitLab #gxolClassicFrame{width:100%;height:770px;display:block;border:0;border-radius:12px;background:#080a1c}
+#gxOrbitLab .gxol-frame-info{color:#8f8da9;font:.58rem 'JetBrains Mono',monospace;padding:10px 5px}
+@media(max-width:680px){#gxOrbitLab .gxol-mode-status{display:flex;width:100%}#gxOrbitLab .gxol-mode-tag{flex:1;padding:12px 10px;font-size:.56rem}#gxOrbitLab .gxol-mode-tag span{font-size:.59rem}#gxOrbitLab .gxol-onair-left{gap:12px}#gxOrbitLab .gxol-now-artwork{width:65px;height:65px}#gxOrbitLab .gxol-original-zone{padding:12px}#gxOrbitLab .gxol-original-heading{display:block}#gxOrbitLab .gxol-original-heading>a{display:inline-block;margin-top:12px}#gxOrbitLab #gxolClassicFrame{height:920px}}
+
+#gxOrbitLab .hero{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);padding:30px 0 12px}
+#gxOrbitLab .orb-stage{height:520px;max-width:710px}
+#gxOrbitLab .gxol-cover-orbit{width:43%!important;max-width:225px!important;pointer-events:auto!important;box-shadow:0 0 0 11px rgba(118,74,225,.16),0 0 58px rgba(105,102,245,.64)!important}
+#gxOrbitLab .gxol-cover-orbit .gxol-cover-play{position:relative;z-index:10;width:72px;height:72px;border:1px solid rgba(226,213,255,.78);border-radius:50%;display:grid;place-items:center;background:rgba(16,13,48,.57);backdrop-filter:blur(8px);color:white;font-size:1.6rem;box-shadow:0 0 35px rgba(126,103,255,.44);pointer-events:auto}
+#gxOrbitLab .gxol-main-status{position:absolute;z-index:5;bottom:9%;left:50%;transform:translateX(-50%);border-radius:50px;padding:9px 16px;white-space:nowrap;color:#e1dbff;background:rgba(9,12,36,.71);border:1px solid rgba(166,138,251,.35);font:600 .6rem 'JetBrains Mono',monospace;letter-spacing:.1em}
+#gxOrbitLab .gxol-now-artwork{width:127px!important;height:127px!important}
+#gxOrbitLab .gxol-original-zone{background:rgba(9,12,28,.88)!important;padding:18px!important}
+#gxOrbitLab #gxolClassicFrame{background:transparent!important;height:730px!important}
+#gxOrbitLab .gxol-personal-location{color:#bdc8ea;font:.65rem 'JetBrains Mono',monospace;margin-top:11px}
+@media(max-width:760px){#gxOrbitLab .hero{display:flex;flex-direction:column}#gxOrbitLab .orb-stage{order:0;width:100%;height:350px;margin:0 auto!important}#gxOrbitLab .hero-copy{order:1}#gxOrbitLab .gxol-cover-orbit{width:40%!important;max-width:155px!important}#gxOrbitLab .gxol-cover-play{width:52px!important;height:52px!important;font-size:1.2rem!important}#gxOrbitLab .gxol-main-status{bottom:3%}#gxOrbitLab .gxol-now-artwork{width:82px!important;height:82px!important}#gxOrbitLab #gxolClassicFrame{height:880px!important}}
+
+/* V0.5 — VISUAL REBUILD INSPIRED BY THE TWO USER-APPROVED CONCEPT REFERENCES */
+#gxOrbitLab{background:radial-gradient(ellipse 36% 28% at 51% 18%,rgba(98,50,188,.31),transparent 79%),radial-gradient(ellipse 58% 22% at 86% 8%,rgba(31,89,170,.22),transparent 90%),radial-gradient(ellipse 35% 30% at 0 79%,rgba(57,30,114,.1),transparent),#050817!important}
+#gxOrbitLab::before{content:"";position:absolute;z-index:-1;top:0;left:0;width:100%;height:650px;pointer-events:none;background:radial-gradient(ellipse at 61% 25%,rgba(157,73,229,.13),transparent 44%),linear-gradient(180deg,transparent 82%,#060917)}
+#gxOrbitLab .shell{width:min(1450px,calc(100% - 52px))!important}
+#gxOrbitLab header.top{padding:24px 0 22px!important;border-bottom:1px solid rgba(166,154,239,.12)!important}
+#gxOrbitLab .brand strong{font-size:clamp(1.48rem,2.6vw,2.45rem)!important;letter-spacing:.09em}
+#gxOrbitLab .brand span{letter-spacing:.55em;color:#d9c5ff}
+#gxOrbitLab .chip{border-color:rgba(123,172,255,.36)!important;background:rgba(13,29,69,.34)!important;color:#d6e6ff!important;box-shadow:inset 0 0 25px rgba(75,80,230,.1)}
+#gxOrbitLab .topnav{gap:clamp(14px,2.1vw,36px)!important}
+#gxOrbitLab .topnav a{transition:color .25s}#gxOrbitLab .topnav a:hover{color:white}
+#gxOrbitLab .hero{display:grid!important;grid-template-columns:minmax(0,.94fr) minmax(0,1.15fr) minmax(220px,.72fr)!important;align-items:center;gap:0!important;padding:34px 0 22px!important;min-height:550px!important}
+#gxOrbitLab .hero-copy{align-self:center;position:relative;z-index:3;padding:18px 0 34px 12px}
+#gxOrbitLab .kicker{font-size:.61rem!important;letter-spacing:.19em!important}
+#gxOrbitLab .hero h1{font-size:clamp(2.18rem,3.3vw,4.15rem)!important;line-height:1.22!important;letter-spacing:.025em!important;margin:20px 0 22px!important}
+#gxOrbitLab .hero h1 em{color:#c1b0ff!important;text-shadow:0 0 44px rgba(129,99,255,.36)}
+#gxOrbitLab .hero-copy>p{max-width:360px!important;color:#c8c7df!important;font-size:.91rem!important;line-height:1.7!important}
+#gxOrbitLab .gxol-mode-status{display:flex!important;max-width:max-content;margin-top:25px!important}
+#gxOrbitLab .gxol-mode-tag{padding:11px 13px!important}
+#gxOrbitLab .promise{font-size:.57rem!important;margin-top:25px!important;gap:9px!important;letter-spacing:.07em!important}
+#gxOrbitLab .promise span{opacity:.91}
+#gxOrbitLab .orb-stage{width:100%!important;max-width:none!important;height:545px!important;align-self:stretch!important;overflow:visible;z-index:2}
+#gxOrbitLab #gxOrbCanvas{width:100%!important;height:100%!important;filter:brightness(1.22) saturate(1.42) drop-shadow(0 0 36px rgba(129,77,239,.19))}
+#gxOrbitLab .orb-halo{inset:20% 14%!important;border-color:rgba(164,131,255,.29)!important;box-shadow:0 0 65px rgba(104,74,222,.24),0 0 0 42px rgba(105,60,218,.023)}
+#gxOrbitLab .gxol-cover-orbit{display:none!important}
+#gxOrbitLab .gxol-play-orbit{position:absolute;z-index:10;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;background:radial-gradient(circle,rgba(5,6,27,.66),rgba(14,10,49,.15) 72%);border:1px solid rgba(195,172,255,.39);box-shadow:0 0 0 9px rgba(140,93,230,.13),0 0 40px rgba(103,69,247,.28);pointer-events:none}
+#gxOrbitLab .gxol-play-logo{font:400 .84rem GXEthno,Arial;color:#f5eaff;text-shadow:0 0 20px rgba(193,145,255,.75)}
+#gxOrbitLab .gxol-orb-play{pointer-events:auto;display:grid;place-items:center;width:65px;height:65px;padding-left:3px;flex:none;border:1px solid rgba(215,196,255,.7);border-radius:50%;background:radial-gradient(circle,rgba(112,65,215,.75),rgba(45,28,116,.86));box-shadow:0 0 31px rgba(159,106,255,.58),inset 0 0 25px rgba(175,140,255,.23);font-size:1.4rem;color:#fff!important;transition:transform .2s,box-shadow .2s}
+#gxOrbitLab .gxol-orb-play:hover{transform:scale(1.09);box-shadow:0 0 52px rgba(166,127,255,.8)}
+#gxOrbitLab .gxol-play-orbit{background:transparent!important;border:0!important;box-shadow:none!important;isolation:isolate;overflow:visible}
+#gxOrbitLab .gxol-play-orbit:before,#gxOrbitLab .gxol-orb-ring{display:none!important}
+#gxOrbitLab .gxol-play-orbit:before{content:"";position:absolute;inset:-12%;border-radius:50%;pointer-events:none;background:conic-gradient(from 20deg,transparent 0 12%,rgba(96,186,255,.28) 19%,transparent 28% 53%,rgba(191,117,255,.39) 61%,transparent 72%);filter:blur(15px);animation:gxOrbEnergy 17s linear infinite}
+#gxOrbitLab .gxol-orb-ring{position:absolute;inset:7%;border-radius:50%;pointer-events:none;border:1px solid rgba(143,191,255,.36);box-shadow:0 0 18px rgba(113,111,255,.14),inset 0 0 15px rgba(113,111,255,.08)}
+#gxOrbitLab .gxol-orb-ring-a{transform:rotateX(69deg) rotateZ(-28deg) scale(1.52);border-top:2px solid rgba(151,206,255,.85);animation:gxOrbTiltA 11s ease-in-out infinite alternate}
+#gxOrbitLab .gxol-orb-ring-b{transform:rotateY(68deg) rotateZ(35deg) scale(1.65);border-right:2px solid rgba(195,127,255,.76);animation:gxOrbTiltB 13s ease-in-out infinite alternate}
+#gxOrbitLab .gxol-orb-ring-c{inset:15%;border-style:dashed;border-color:rgba(195,179,255,.36);animation:gxOrbEnergy 27s linear infinite}
+#gxOrbitLab .gxol-orb-play{position:relative;z-index:3;width:112px!important;height:112px!important;padding:0!important;border:0!important;background:radial-gradient(circle at 30% 25%,rgba(144,165,255,.34),rgba(36,31,96,.54) 58%,rgba(8,11,37,.72))!important;box-shadow:0 0 48px rgba(129,91,248,.47),inset 0 0 34px rgba(142,177,255,.2)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#gxOrbitLab .gxol-play-symbol{display:inline-block;font-size:2.05rem;margin-left:3px;line-height:1;filter:drop-shadow(0 0 10px rgba(227,206,255,.9))}
+#gxOrbitLab .gxol-orb-play:focus-visible{outline:3px solid #a8d6ff;outline-offset:6px}
+#gxOrbitLab .gxol-orb-play:active{transform:scale(.93)!important}
+@keyframes gxOrbEnergy{to{transform:rotate(360deg)}}
+@keyframes gxOrbTiltA{to{transform:rotateX(62deg) rotateZ(19deg) scale(1.68)}}
+@keyframes gxOrbTiltB{to{transform:rotateY(73deg) rotateZ(-10deg) scale(1.5)}}
+@media(max-width:690px){#gxOrbitLab .gxol-orb-play{width:84px!important;height:84px!important}#gxOrbitLab .gxol-play-symbol{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-play-orbit:before,#gxOrbitLab .gxol-orb-ring{animation:none!important}}
+
+#gxOrbitLab .gxol-play-caption{font:600 .41rem 'JetBrains Mono',monospace;letter-spacing:.08em;color:#d6c5f5;white-space:nowrap}
+#gxOrbitLab .gxol-main-status{bottom:6%!important;padding:9px 15px!important}
+#gxOrbitLab .gxol-fuel-meter{margin-top:20px;padding:16px 3px 5px}
+#gxOrbitLab .gxol-fuel-meter-title{font:400 clamp(.79rem,1.22vw,1rem)/1.4 GXEthno,Arial,sans-serif;color:#e7e5ff;letter-spacing:.035em;margin-bottom:12px}
+#gxOrbitLab .gxol-fuel-meter-cells{display:flex;align-items:center;gap:4px;min-height:38px;padding:5px 7px;border:1px solid rgba(63,238,142,.3);border-radius:30px;background:rgba(2,20,22,.83);box-shadow:inset 0 2px 15px rgba(0,0,0,.46)}
+#gxOrbitLab .gxol-fuel-cell{display:block;flex:1;min-width:0;aspect-ratio:1;border-radius:50%;background:rgba(52,90,78,.17);border:1px solid rgba(74,123,98,.12)}
+#gxOrbitLab .gxol-fuel-cell.active{background:radial-gradient(circle at 35% 25%,#c3ff9e,#68fa7a 55%,#14b97c);border-color:rgba(147,255,160,.65);box-shadow:0 0 9px #42ef85,0 0 17px rgba(61,234,123,.52),inset 0 1px 2px #d9ffcb}
+#gxOrbitLab .gxol-fuel-meter-value{margin-top:12px;color:#cfcce8;font:600 .72rem/1.5 'JetBrains Mono',monospace;letter-spacing:.035em}
+#gxOrbitLab .gxol-fuel-meter-value strong{font:700 1.35rem/1.3 'JetBrains Mono',monospace;color:#f0eeff}
+@media(max-width:690px){#gxOrbitLab .gxol-fuel-meter-cells{gap:2px;padding:5px}#gxOrbitLab .gxol-fuel-meter-title{font-size:.82rem}}
+#gxOrbitLab header.top.gxol-site-top{position:relative;z-index:40;width:100%;margin:0 auto;padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;border:0!important;background:transparent}
+#gxOrbitLab .gxol-site-logo{display:inline-flex;align-items:center;flex:0 1 235px;max-width:235px;text-decoration:none}
+#gxOrbitLab .gxol-site-logo img{display:block;width:auto;max-width:100%;height:29px;object-fit:contain;object-position:left center}
+#gxOrbitLab .gxol-site-links{display:flex;align-items:center;gap:26px}
+#gxOrbitLab .gxol-site-links a{font:600 .68rem/1.4 'JetBrains Mono',monospace;letter-spacing:.10em;text-transform:uppercase;color:rgba(247,243,251,.82);white-space:nowrap;text-decoration:none;transition:color .2s ease}
+#gxOrbitLab .gxol-site-links a:hover,#gxOrbitLab .gxol-site-links a[aria-current="page"]{color:#fff}
+#gxOrbitLab .gxol-site-menu{display:none;width:42px;height:42px;flex:none;border-radius:50%;border:1px solid rgba(163,111,255,.34);background:rgba(10,9,19,.75);color:#fff;cursor:pointer}
+#gxOrbitLab .gxol-site-menu span{display:block;width:15px;height:1px;background:currentColor;margin:4px auto}
+@media(max-width:850px){#gxOrbitLab header.top.gxol-site-top{padding:20px 0}#gxOrbitLab .gxol-site-menu{display:block}#gxOrbitLab .gxol-site-links{position:absolute;z-index:50;right:0;top:73px;display:grid;gap:19px;width:min(265px,calc(100vw - 40px));padding:22px;border:1px solid rgba(176,107,255,.2);border-radius:14px;background:rgba(8,8,16,.97);box-shadow:0 18px 34px rgba(0,0,0,.38);opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .2s ease,transform .2s ease}#gxOrbitLab .gxol-site-top.is-open .gxol-site-links{opacity:1;transform:none;pointer-events:auto}#gxOrbitLab .gxol-site-logo img{height:24px}#gxOrbitLab .gxol-site-links a{font-size:.67rem}}
+
+#gxOrbitLab .gxol-fuel-station{overflow:hidden;position:relative;min-height:0;padding:16px 20px 18px}
+#gxOrbitLab .gxol-fuel-station h3{margin:10px 0 4px;font-size:clamp(1rem,1.4vw,1.25rem)}
+#gxOrbitLab .gxol-fuel-visual{position:relative;isolation:isolate;height:clamp(125px,13vw,185px);margin:2px 0;display:grid;place-items:center;overflow:hidden;border-radius:14px;background:radial-gradient(ellipse at 51% 89%,rgba(48,94,175,.21),transparent 48%),radial-gradient(ellipse at 55% 42%,rgba(83,68,153,.16),transparent 69%);perspective:650px}
+#gxOrbitLab .gxol-fuel-visual:before{content:"";position:absolute;width:76%;height:27%;left:12%;bottom:5%;border:1px solid rgba(119,172,255,.24);border-radius:50%;transform:rotateX(64deg);box-shadow:0 0 24px rgba(101,119,255,.14),inset 0 0 20px rgba(65,104,204,.13)}
+#gxOrbitLab .gxol-fuel-visual:after{content:"";position:absolute;width:34%;height:2px;left:33%;bottom:16%;background:#7d9ffe;filter:blur(13px);opacity:.78;pointer-events:none}
+#gxOrbitLab .gxol-coin-halo{position:absolute;width:155px;height:155px;border-radius:50%;background:radial-gradient(circle,rgba(140,160,255,.15),transparent 70%);filter:blur(9px);animation:gxolFuelBreathe 5s ease-in-out infinite}
+#gxOrbitLab .gxol-coin-orbit{position:absolute;width:158px;height:60px;border:1px solid rgba(133,186,255,.33);border-radius:50%;transform:rotate(-30deg);animation:gxolFuelOrbit 9s ease-in-out infinite alternate}
+#gxOrbitLab .gxol-coin-orbit-b{width:177px;transform:rotate(43deg);border-color:rgba(172,116,255,.31);animation-delay:-4s}
+#gxOrbitLab .gxol-coin{position:relative;z-index:5;display:grid;place-items:center;isolation:isolate;overflow:hidden;width:142px;height:142px;flex:none;border-radius:50%;border:3px solid #ffe49b;cursor:pointer;background:radial-gradient(circle at 30% 21%,#fff8c4 0%,#f9d86c 16%,#e4a728 37%,#8e4c0b 73%,#3e230d 100%);box-shadow:0 0 0 3px #a96b1b,0 0 0 6px rgba(255,204,91,.42),0 0 39px rgba(255,183,47,.52),inset 0 3px 8px rgba(255,255,226,.92),inset 0 -11px 15px rgba(83,39,1,.8),inset 0 0 0 9px rgba(109,57,5,.3),inset 0 0 0 12px rgba(255,220,122,.65);text-decoration:none!important;transform:rotateY(18deg);transform-style:preserve-3d;animation:gxolFuelFloat 5.6s ease-in-out infinite;transition:filter .25s ease,box-shadow .25s ease}
+#gxOrbitLab .gxol-coin:before{content:"";position:absolute;z-index:0;inset:17px;border:2px solid rgba(255,230,139,.95);border-radius:50%;box-shadow:inset 0 2px 5px rgba(80,35,0,.55),0 1px 2px #fff7d0;background:radial-gradient(circle at 30% 25%,rgba(255,241,167,.6),transparent 53%);pointer-events:none}
+#gxOrbitLab .gxol-coin:after{content:"";position:absolute;z-index:3;inset:-65%;transform:translateX(-110%) rotate(26deg);background:linear-gradient(90deg,transparent 38%,rgba(255,255,255,.08) 46%,rgba(255,255,227,.82) 50%,rgba(255,255,255,.1) 55%,transparent 62%);pointer-events:none;animation:gxolGoldShine 5.8s ease-in-out infinite}
+#gxOrbitLab .gxol-coin span{position:relative;z-index:2;display:block;padding-left:6px;font:400 3.85rem/1 GXEthno,Arial,sans-serif;letter-spacing:-.08em;background:linear-gradient(160deg,#fff8ca 12%,#fff3a7 35%,#b96a11 62%,#ffde81 85%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1px rgba(120,57,5,.8);filter:drop-shadow(0 2px 1px rgba(85,40,0,.8)) drop-shadow(0 -1px 1px #fff3bf)}
+#gxOrbitLab .gxol-coin:hover{filter:brightness(1.1) saturate(1.12);box-shadow:0 0 0 3px #f3a731,0 0 0 7px rgba(255,220,110,.58),0 0 63px rgba(255,189,58,.84),inset 0 3px 10px rgba(255,255,226,.96),inset 0 -11px 15px rgba(83,39,1,.8),inset 0 0 0 9px rgba(109,57,5,.3),inset 0 0 0 12px rgba(255,220,122,.75)}
+#gxOrbitLab .gxol-coin:focus-visible{outline:3px solid #fff4bd;outline-offset:12px}
+#gxOrbitLab .gxol-coin-halo{width:205px;height:205px;background:radial-gradient(circle,rgba(252,178,43,.25),rgba(211,122,26,.09) 48%,transparent 73%)}
+#gxOrbitLab .gxol-coin-orbit{width:194px;height:73px;border-color:rgba(255,195,86,.28)}
+#gxOrbitLab .gxol-coin-orbit-b{width:214px;border-color:rgba(242,199,101,.22)}
+@keyframes gxolGoldShine{0%,24%{transform:translateX(-110%) rotate(26deg);opacity:0}30%{opacity:.85}48%,100%{transform:translateX(110%) rotate(26deg);opacity:0}}
+@media(max-width:690px){#gxOrbitLab .gxol-coin{width:130px;height:130px}#gxOrbitLab .gxol-coin span{font-size:3.5rem}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-coin:after{animation:none;display:none}}
+#gxOrbitLab .gxol-fuel-spark{position:absolute;width:4px;height:4px;border-radius:50%;background:#b8d7ff;box-shadow:0 0 12px #b8d7ff;animation:gxolFuelTwinkle 2.9s ease-in-out infinite alternate}
+#gxOrbitLab .gxol-fuel-spark-a{top:17%;left:27%}
+#gxOrbitLab .gxol-fuel-spark-b{top:39%;right:17%;animation-delay:-1s}
+#gxOrbitLab .gxol-fuel-spark-c{bottom:22%;left:16%;animation-delay:-2s}
+#gxOrbitLab .gxol-fuel-avatar:not([hidden]){position:absolute;z-index:3;display:block!important;left:50%;bottom:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain;mix-blend-mode:lighten;filter:drop-shadow(0 0 14px rgba(134,113,237,.23));animation:gxolAvatarSway 7s ease-in-out infinite;transform-origin:50% 85%}
+#gxOrbitLab .gxol-fuel-visual:has(.gxol-fuel-avatar:not([hidden])) .gxol-coin,#gxOrbitLab .gxol-fuel-visual:has(.gxol-fuel-avatar:not([hidden])) .gxol-coin-orbit{opacity:.16}
+#gxOrbitLab .gxol-fuel-meter{margin:4px 0 0;padding:10px 0 3px}
+#gxOrbitLab .gxol-fuel-cta{justify-content:center;text-align:center;min-height:60px;padding:15px;gap:0}
+#gxOrbitLab .gxol-fuel-cta .gxol-fuel-copy{align-items:center}
+#gxOrbitLab .gxol-fuel-cta .gxol-fuel-copy strong{font-size:clamp(.75rem,.95vw,.9rem)}
+#gxOrbitLab .gxol-fuel-cta .gxol-fuel-copy small{font-size:.73rem;letter-spacing:.01em}
+@keyframes gxolFuelBreathe{50%{transform:scale(1.35);opacity:.6}}
+@keyframes gxolFuelOrbit{50%{transform:rotate(25deg) scale(1.1)}}
+@keyframes gxolFuelFloat{50%{transform:translateY(-10px) rotateY(-14deg) rotateZ(-3deg)}}
+@keyframes gxolFuelTwinkle{50%{opacity:.2;transform:scale(.6)}}
+@keyframes gxolAvatarSway{0%,100%{transform:translateX(-50%) rotateY(-2deg) translateY(0)}50%{transform:translateX(-50%) rotateY(2deg) translateY(-3px)}}
+@media(max-width:690px){#gxOrbitLab .gxol-fuel-visual{height:175px}#gxOrbitLab .gxol-fuel-station{padding:15px}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-fuel-visual *,#gxOrbitLab .gxol-fuel-visual:before,#gxOrbitLab .gxol-fuel-visual:after{animation:none!important}}
+
+#gxOrbitLab .gxol-fuel-visual{display:flex;justify-content:space-evenly;align-items:center;gap:8px;min-height:225px}
+#gxOrbitLab .gxol-fuel-alien{position:relative;z-index:3;display:grid;place-items:center;flex:0 0 42%;height:175px;min-width:100px;max-width:185px;transform-style:preserve-3d;animation:gxolAlienFloat 5s ease-in-out infinite}
+#gxOrbitLab .gxol-alien-face{position:relative;z-index:4;display:block;width:120px;max-width:97%;height:135px;overflow:visible;filter:drop-shadow(0 0 14px rgba(157,94,247,.56)) drop-shadow(0 5px 12px rgba(20,8,47,.5));transition:transform .42s cubic-bezier(.2,.9,.2,1)}
+#gxOrbitLab .gxol-alien-orbit{position:absolute;z-index:2;width:145px;max-width:100%;height:67px;top:49%;left:50%;border:1px solid rgba(173,136,255,.46);border-radius:50%;transform:translate(-50%,-50%) rotate(-36deg);box-shadow:0 0 13px rgba(154,97,255,.17);animation:gxolAlienOrbit 8s ease-in-out infinite alternate}
+#gxOrbitLab .gxol-alien-orbit-two{transform:translate(-50%,-50%) rotate(40deg);border-color:rgba(106,193,255,.32);animation-delay:-4s}
+#gxOrbitLab .gxol-alien-mouth-happy,#gxOrbitLab .gxol-alien-blush{opacity:0;transition:opacity .24s ease}
+#gxOrbitLab .gxol-alien-mouth-normal{opacity:1;transition:opacity .24s ease}
+#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-mouth-happy,#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-blush{opacity:1}
+#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-mouth-normal{opacity:0}
+#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-face{transform:rotate(-9deg) scale(1.13)}
+#gxOrbitLab .gxol-fuel-alien.is-happy{animation:gxolAlienCelebrate .7s ease-in-out 2}
+#gxOrbitLab .gxol-fuel-visual .gxol-coin{z-index:5;width:122px;height:122px;flex:0 0 122px}
+#gxOrbitLab .gxol-fuel-visual .gxol-coin span{font-size:3.25rem}
+#gxOrbitLab .gxol-fuel-visual .gxol-coin-halo{right:4%;left:auto;width:170px;height:170px}
+#gxOrbitLab .gxol-fuel-visual .gxol-coin-orbit{left:auto;right:-2%;width:158px}
+#gxOrbitLab .gxol-fuel-visual .gxol-coin-orbit-b{right:0;width:166px}
+#gxOrbitLab .gxol-fuel-cta:active{transform:translateY(1px)}
+@keyframes gxolAlienFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes gxolAlienOrbit{to{transform:translate(-50%,-50%) rotate(24deg)}}
+@keyframes gxolAlienCelebrate{0%,100%{transform:translateY(0) rotate(0deg)}30%{transform:translateY(-13px) rotate(-9deg)}70%{transform:translateY(-8px) rotate(7deg)}}
+@media(max-width:690px){#gxOrbitLab .gxol-fuel-visual{gap:0;min-height:210px}#gxOrbitLab .gxol-fuel-alien{min-width:96px;height:140px}#gxOrbitLab .gxol-alien-face{width:105px;height:112px}#gxOrbitLab .gxol-fuel-visual .gxol-coin{width:109px;height:109px;flex-basis:109px}#gxOrbitLab .gxol-fuel-visual .gxol-coin span{font-size:2.9rem}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-fuel-alien,#gxOrbitLab .gxol-alien-orbit{animation:none!important}}
+
+/* Spaceship Fuel: alien centered, coin shower only after the visitor clicks */
+#gxOrbitLab .gxol-fuel-visual{position:relative!important;display:grid!important;place-items:center!important;justify-content:center!important;align-content:center!important;min-height:0!important;height:175px!important;gap:0!important}
+#gxOrbitLab .gxol-fuel-alien{position:relative!important;inset:auto!important;flex:none!important;z-index:5!important;width:160px!important;height:165px!important;max-width:100%!important;min-width:0!important;margin:0 auto!important}
+#gxOrbitLab .gxol-alien-face{width:134px!important;height:147px!important;max-width:100%!important}
+#gxOrbitLab .gxol-fuel-coins{position:absolute;z-index:6;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit;isolation:isolate}
+#gxOrbitLab .gxol-fuel-burst-coin{position:absolute;left:50%;top:58%;display:grid;place-items:center;width:31px;height:31px;border-radius:50%;border:2px solid #ffe6a2;background:radial-gradient(circle at 28% 24%,#fff5c5 0%,#ffd76d 29%,#ce871f 60%,#80420a 100%);box-shadow:inset 0 0 0 3px rgba(120,63,5,.38),0 0 12px rgba(255,185,54,.57);color:#fff2b7;font:400 14px/1 GXEthno,Arial,sans-serif;text-shadow:0 1px 2px #6e380a;opacity:0;animation:gxolFuelCoinBurst var(--gx-coin-duration,1150ms) cubic-bezier(.14,.65,.25,1) var(--gx-coin-delay,0ms) forwards;transform:translate(-50%,-50%) scale(.25)}
+@keyframes gxolFuelCoinBurst{0%{opacity:0;transform:translate(-50%,-50%) translate(0,12px) rotateY(0deg) scale(.2)}13%{opacity:1}65%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) translate(var(--gx-coin-x),var(--gx-coin-y)) rotateY(740deg) rotateZ(var(--gx-coin-rot)) scale(.76)}}
+@media(max-width:690px){#gxOrbitLab .gxol-fuel-visual{height:160px!important;min-height:0!important}#gxOrbitLab .gxol-fuel-alien{height:155px!important;width:150px!important}#gxOrbitLab .gxol-alien-face{width:117px!important;height:135px!important}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-fuel-burst-coin{animation:none!important;display:none!important}}
+
+/* Spaceship Fuel cinematic hierarchy: independent distant ship, central expressive alien */
+#gxOrbitLab .gxol-fuel-visual{isolation:isolate!important;perspective:900px!important;overflow:hidden!important}
+#gxOrbitLab .gxol-fuel-alien{z-index:5!important;transform-origin:center 80%;filter:drop-shadow(0 8px 13px rgba(100,77,207,.38))}
+#gxOrbitLab .gxol-alien-face{position:relative;z-index:6;transform-origin:50% 50%;will-change:transform}
+#gxOrbitLab .gxol-launch-ship{position:absolute!important;z-index:1!important;top:8%!important;right:7%!important;left:auto!important;bottom:auto!important;width:103px!important;height:auto!important;opacity:.43!important;filter:drop-shadow(0 0 9px rgba(100,191,253,.21)) blur(.25px)!important;pointer-events:none!important;transform-origin:50% 60%;animation:gxolFarShipDrift 12s ease-in-out infinite!important}
+#gxOrbitLab .gxol-ship-thrust{position:absolute!important;z-index:0!important;top:26%!important;right:20%!important;width:40px!important;height:40px!important;border-radius:50%!important;background:radial-gradient(circle,rgba(112,183,255,.2),transparent 70%)!important;opacity:.5!important;animation:gxolFarEnginePulse 3.5s ease-in-out infinite}
+#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-eye{transform-box:fill-box!important;transform-origin:center center!important;animation:gxolAlienEcstaticEyes .7s cubic-bezier(.2,.95,.25,1) forwards!important}
+#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-face{animation:gxolAlienBliss 1.5s cubic-bezier(.22,.8,.3,1) 1 both!important}
+#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-blush{opacity:.82!important}
+#gxOrbitLab .gxol-fuel-heart{position:absolute;z-index:7;left:50%;top:55%;color:#eaa8ff;font-size:24px;line-height:1;text-shadow:0 0 13px rgba(223,146,255,.8);opacity:0;animation:gxolHeartRise 1.4s cubic-bezier(.16,.7,.24,1) var(--gx-coin-delay,0ms) both}
+@keyframes gxolFarShipDrift{0%,100%{transform:translate3d(0,0,-210px) rotate(-8deg) scale(.85)}35%{transform:translate3d(-18px,-9px,-210px) rotate(8deg) scale(.91)}70%{transform:translate3d(8px,-14px,-210px) rotate(-3deg) scale(.84)}}
+@keyframes gxolFarEnginePulse{50%{opacity:.2;transform:scale(1.4)}}
+@keyframes gxolAlienEcstaticEyes{0%{scale:1}45%{scale:1.42 1.24}100%{scale:1.22 1.17}}
+@keyframes gxolAlienBliss{0%{transform:rotate(0deg) scale(1)}25%{transform:rotate(-6deg) scale(1.18)}60%{transform:rotate(5deg) scale(1.26)}100%{transform:rotate(0deg) scale(1.18)}}
+@keyframes gxolHeartRise{0%{opacity:0;transform:translate(-50%,-50%) translate(0,10px) scale(.25) rotate(-17deg)}20%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) translate(var(--gx-coin-x),var(--gx-coin-y)) scale(1.25) rotate(18deg)}}
+@media(max-width:690px){#gxOrbitLab .gxol-launch-ship{width:78px!important;top:10%!important;right:8%!important}#gxOrbitLab .gxol-ship-thrust{right:19%!important}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-launch-ship,#gxOrbitLab .gxol-ship-thrust,#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-eye,#gxOrbitLab .gxol-fuel-alien.is-happy .gxol-alien-face,#gxOrbitLab .gxol-fuel-heart{animation:none!important}}
+
+/* GALACTICA cinematic support launch: one clear three-act sequence */
+#gxOrbitLab .gxol-fuel-visual{overflow:hidden!important;isolation:isolate!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching{box-shadow:inset 0 0 38px rgba(92,117,237,.16)}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-launch-ship{z-index:4!important;opacity:1!important;filter:drop-shadow(0 0 14px rgba(121,214,255,.6))!important;animation:gxolCinematicShip 3500ms cubic-bezier(.37,.02,.32,1) both!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-fuel-alien{animation:gxolCinematicAlien 3500ms cubic-bezier(.37,.02,.32,1) both!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-alien-face{animation:none!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-alien-mouth-normal{opacity:0!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-alien-mouth-happy{opacity:1!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-alien-blush{opacity:.6!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching .gxol-ship-thrust{z-index:3!important;animation:gxolCinematicThruster 3500ms ease-in-out both!important}
+#gxOrbitLab .gxol-fuel-visual.is-launching:after{content:"";z-index:2!important;position:absolute!important;left:50%!important;bottom:0!important;width:44%!important;height:80%!important;transform:translateX(-50%)!important;background:linear-gradient(0deg,transparent,rgba(129,183,255,.18) 40%,transparent)!important;filter:blur(12px)!important;animation:gxolCinematicBeam 3500ms ease-in-out both!important}
+@keyframes gxolCinematicShip{
+ 0%{transform:translate3d(0,0,-160px) rotate(-8deg) scale(.8);opacity:.4}
+ 14%{transform:translate3d(-9px,15px,-100px) rotate(3deg) scale(1);opacity:.8}
+ 37%{transform:translate3d(-70px,94px,0) rotate(0deg) scale(1.5);opacity:1}
+ 49%{transform:translate3d(-70px,88px,0) rotate(0deg) scale(1.5);opacity:1}
+ 65%{transform:translate3d(-70px,23px,0) rotate(-4deg) scale(1.36);opacity:1}
+ 85%{transform:translate3d(-90px,-165px,0) rotate(-11deg) scale(.85);opacity:1}
+ 100%{transform:translate3d(-109px,-300px,0) rotate(-16deg) scale(.25);opacity:0}
+}
+@keyframes gxolCinematicAlien{
+ 0%,35%{transform:translate3d(0,0,0) rotate(0deg) scale(1);opacity:1}
+ 45%{transform:translate3d(0,-5px,0) rotate(-4deg) scale(1.09);opacity:1}
+ 63%{transform:translate3d(-8px,-58px,0) rotate(-7deg) scale(.9);opacity:1}
+ 84%{transform:translate3d(-20px,-191px,0) rotate(-8deg) scale(.48);opacity:1}
+ 100%{transform:translate3d(-29px,-328px,0) rotate(-10deg) scale(.1);opacity:0}
+}
+@keyframes gxolCinematicThruster{0%,28%{opacity:.15;transform:scale(.5)}44%{opacity:.72;transform:scale(1.8)}68%{opacity:.85;transform:scale(2.6)}100%{opacity:0;transform:translateY(-230px) scale(.6)}}
+@keyframes gxolCinematicBeam{0%,25%{opacity:0}40%{opacity:.45}65%{opacity:.65}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+ #gxOrbitLab .gxol-fuel-visual.is-launching .gxol-launch-ship,
+ #gxOrbitLab .gxol-fuel-visual.is-launching .gxol-fuel-alien,
+ #gxOrbitLab .gxol-fuel-visual.is-launching .gxol-ship-thrust,
+ #gxOrbitLab .gxol-fuel-visual.is-launching:after{animation:none!important}
+}
+#gxOrbitLab .gxol-fuel-cta{display:flex;align-items:center;gap:13px;margin-top:16px;padding:16px 17px;border-radius:15px;border:1px solid rgba(144,191,255,.48);background:linear-gradient(118deg,rgba(58,63,146,.66),rgba(56,36,113,.68) 56%,rgba(25,37,99,.85));color:#fff!important;text-decoration:none;box-shadow:inset 0 1px rgba(236,234,255,.18),0 0 24px rgba(76,94,223,.16);transition:transform .22s ease,box-shadow .22s ease,filter .22s ease;position:relative;overflow:hidden}
+#gxOrbitLab .gxol-fuel-cta:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 10%,rgba(194,210,255,.15) 37%,transparent 60%);opacity:.8}
+#gxOrbitLab .gxol-fuel-cta:hover{transform:translateY(-3px);box-shadow:inset 0 1px rgba(236,234,255,.25),0 8px 34px rgba(100,100,255,.32);filter:brightness(1.13)}
+#gxOrbitLab .gxol-fuel-cta:focus-visible{outline:3px solid #9bcfff;outline-offset:4px}
+#gxOrbitLab .gxol-fuel-symbol{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;border-radius:13px;background:radial-gradient(circle at 35% 30%,rgba(192,200,255,.4),rgba(97,67,194,.38));box-shadow:inset 0 1px rgba(255,255,255,.26),0 0 25px rgba(145,119,255,.24);font-size:1.55rem;color:#d8eaff}
+#gxOrbitLab .gxol-fuel-copy{display:grid;gap:5px;min-width:0;flex:1;position:relative}
+#gxOrbitLab .gxol-fuel-copy strong{font:400 clamp(.7rem,1.05vw,.84rem)/1.25 GXEthno,Arial,sans-serif;letter-spacing:.018em}
+#gxOrbitLab .gxol-fuel-copy small{font:500 .64rem/1.3 'JetBrains Mono',monospace;color:#c9c9f0}
+#gxOrbitLab .gxol-fuel-arrow{font:700 1.18rem Arial,sans-serif;color:#c7e6ff;position:relative}
+@media(max-width:690px){#gxOrbitLab .gxol-fuel-cta{padding:15px 13px;margin-top:14px}#gxOrbitLab .gxol-fuel-copy strong{font-size:.73rem}}
+#gxOrbitLab .gxol-hero-schedule{z-index:3;align-self:center;background:linear-gradient(150deg,rgba(15,19,47,.92),rgba(9,16,34,.88));border:1px solid rgba(122,150,241,.35);border-radius:14px;min-height:0;padding:16px 20px;box-shadow:0 23px 60px rgba(0,0,0,.25)}
+#gxOrbitLab .gxol-hero-schedule-head{display:flex;justify-content:space-between;align-items:center;gap:9px;border-bottom:1px solid rgba(166,141,235,.17);padding-bottom:17px}
+#gxOrbitLab .gxol-hero-live{font:700 .58rem 'JetBrains Mono',monospace;color:#c4dbff;border:1px solid rgba(139,171,255,.28);padding:7px 9px;border-radius:22px;white-space:nowrap}
+#gxOrbitLab .gxol-hero-live i{display:inline-block;margin-right:5px;width:6px;height:6px;background:#70d7ff;border-radius:50%;box-shadow:0 0 10px #70d7ff}
+#gxOrbitLab .gxol-hero-schedule h3{font:400 .94rem/1.25 GXEthno,Arial;margin:22px 0 17px}
+#gxOrbitLab .gxol-hero-next{display:flex;align-items:center;gap:12px;min-width:0}
+#gxOrbitLab .gxol-mini-art{display:grid;place-items:center;width:52px;height:52px;border:1px solid rgba(181,134,255,.36);border-radius:9px;background:radial-gradient(circle,#4c3699,#15143b);color:#c29dfd;font-size:1.2rem;flex:none}
+#gxOrbitLab .gxol-hero-next strong{display:block;font-size:.76rem;line-height:1.4;overflow-wrap:anywhere}
+#gxOrbitLab .gxol-hero-next span{display:block;margin-top:6px;font:.59rem 'JetBrains Mono',monospace;color:#aeb2d4}
+#gxOrbitLab .gxol-hero-queue{border-top:1px solid rgba(169,143,241,.16);padding-top:18px;margin-top:20px}
+#gxOrbitLab .gxol-hero-queue span{font:600 .55rem 'JetBrains Mono',monospace;color:#b490fb;letter-spacing:.08em}
+#gxOrbitLab .gxol-hero-queue p{font-size:.78rem;color:#c2c0da;line-height:1.55;margin:10px 0}
+#gxOrbitLab .gxol-hero-cta{display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(182,131,255,.43);border-radius:9px;padding:11px 14px;margin-top:18px;font:700 .56rem 'JetBrains Mono',monospace;background:rgba(123,82,234,.14)}
+#gxOrbitLab .broadcast{padding:26px 30px 19px!important;background:linear-gradient(125deg,rgba(27,20,63,.95),rgba(10,17,39,.94))!important;border:1px solid rgba(174,127,255,.55)!important;box-shadow:0 0 47px rgba(87,51,189,.1),0 23px 66px rgba(0,0,0,.22)}
+#gxOrbitLab .gxol-onair-left{gap:26px!important}
+#gxOrbitLab .gxol-now-artwork{width:156px!important;height:156px!important;border-radius:10px!important;background-size:cover!important;box-shadow:0 0 0 1px rgba(199,172,255,.17),0 0 35px rgba(136,80,233,.19)!important}
+#gxOrbitLab .gxol-now-artwork span{font-size:.6rem}
+#gxOrbitLab .broadcast h2{font-size:clamp(1.22rem,2.15vw,2.5rem)!important;line-height:1.14!important}
+#gxOrbitLab .gxol-now-label{font:600 .58rem 'JetBrains Mono',monospace;color:#8696bf;margin:8px 0}
+#gxOrbitLab .gxol-air-wave{color:#a18dff;font-size:.6rem;letter-spacing:.04em;margin-left:9px;animation:gxolPulse 2.5s ease-in-out infinite}
+@keyframes gxolPulse{50%{opacity:.39}}
+#gxOrbitLab .status{font-size:.55rem}
+#gxOrbitLab .wave-wrap{height:192px!important;margin-top:12px!important}
+#gxOrbitLab #gxolWavePlus{height:164px!important;filter:drop-shadow(0 0 11px rgba(126,72,255,.42))!important}
+#gxOrbitLab #gxolWaveFX{position:absolute;inset:0;width:100%;height:164px;z-index:1;pointer-events:none;mix-blend-mode:screen}
+#gxOrbitLab .wave-caption{z-index:3}
+#gxOrbitLab .control-strip{padding-top:15px!important;margin-top:8px!important}
+#gxOrbitLab .mod-grid{margin-top:19px!important;gap:17px!important}
+#gxOrbitLab .mod-grid .panel,#gxOrbitLab .lower .panel{background:linear-gradient(140deg,rgba(22,22,54,.94),rgba(9,17,39,.91))!important;border-color:rgba(121,146,241,.28)!important}
+#gxOrbitLab .mod-grid h3,#gxOrbitLab .lower h3{font-size:clamp(.9rem,1.2vw,1.14rem)!important}
+#gxOrbitLab .panel-pad{padding:22px!important}
+#gxOrbitLab .gxol-original-zone{margin-top:24px!important;background:linear-gradient(135deg,rgba(16,13,44,.93),rgba(7,12,30,.92))!important;border-color:rgba(125,135,238,.4)!important}
+#gxOrbitLab .gxol-original-heading h2{font-size:clamp(1.16rem,2.15vw,2.2rem)!important}
+#gxOrbitLab .gxol-original-heading p{font-size:.8rem!important}
+#gxOrbitLab #gxolClassicFrame{width:100%!important;height:740px!important;border-color:rgba(149,132,242,.18)!important;background:rgba(6,8,24,.42)!important}
+#gxOrbitLab .timezone{background:linear-gradient(90deg,transparent,rgba(38,46,103,.16),transparent);padding:27px 15px!important}
+@media(max-width:1150px){#gxOrbitLab .hero{grid-template-columns:1fr 1.1fr!important}#gxOrbitLab .gxol-hero-schedule{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:0}#gxOrbitLab .gxol-hero-schedule h3{margin:9px 0}#gxOrbitLab .gxol-hero-schedule-head{border-bottom:0;padding:0}#gxOrbitLab .gxol-hero-queue{margin:0;padding-top:0;border-top:0}#gxOrbitLab .gxol-hero-cta{margin:0}#gxOrbitLab .orb-stage{height:470px!important}}
+@media(max-width:690px){#gxOrbitLab .shell{width:calc(100% - 30px)!important}#gxOrbitLab .hero{display:flex!important;flex-direction:column!important;gap:0!important;padding-top:20px!important}#gxOrbitLab .hero-copy{order:0!important;width:100%;padding:22px 2px 0}#gxOrbitLab .hero h1{font-size:clamp(2.12rem,8.4vw,3.8rem)!important}#gxOrbitLab .orb-stage{order:1!important;width:100%;height:365px!important;margin:4px auto -10px!important}#gxOrbitLab .gxol-play-orbit{width:130px;height:130px;gap:8px}#gxOrbitLab .gxol-play-logo{font-size:.59rem}#gxOrbitLab .gxol-orb-play{width:48px;height:48px;font-size:1.15rem}#gxOrbitLab .gxol-play-caption{font-size:.32rem}#gxOrbitLab .gxol-main-status{bottom:5%!important}#gxOrbitLab .gxol-hero-schedule{order:2!important;width:100%;display:block;min-height:0;margin:12px 0 19px!important}#gxOrbitLab .gxol-hero-schedule h3{margin:20px 0 14px}#gxOrbitLab .gxol-hero-queue{margin-top:14px;padding-top:12px;border-top:1px solid rgba(176,136,244,.18)}#gxOrbitLab .gxol-hero-cta{margin-top:12px}#gxOrbitLab .broadcast{padding:18px 14px!important}#gxOrbitLab .broadcast-top{display:block}#gxOrbitLab .gxol-onair-left{gap:13px!important}#gxOrbitLab .gxol-now-artwork{width:92px!important;height:92px!important}#gxOrbitLab .broadcast h2{font-size:1.17rem!important}#gxOrbitLab .gxol-current-actions a,#gxOrbitLab .gxol-current-actions button{padding:7px 11px!important;font-size:.56rem!important;min-height:30px!important}#gxOrbitLab .broadcast .status{margin-top:14px}#gxOrbitLab .wave-wrap{height:148px!important}#gxOrbitLab #gxolWavePlus,#gxOrbitLab #gxolWaveFX{height:120px!important}#gxOrbitLab #gxolClassicFrame{height:870px!important}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-air-wave{animation:none}}
+#gxOrbitLab #gxolClassicFrame{height:850px!important;min-height:850px!important}
+@media(max-width:760px){#gxOrbitLab #gxolClassicFrame{height:1150px!important;min-height:1150px!important}}
+
+/* GALACTICA refined continuous radio experience */
+#gxOrbitLab .hero{padding-bottom:0!important;margin-bottom:0!important}
+#gxOrbitLab #gxol-player{margin-top:-2px!important;position:relative!important;z-index:3!important;border:0!important;border-radius:0 0 22px 22px!important;background:linear-gradient(180deg,rgba(19,21,55,.12),rgba(14,16,39,.50) 50%,rgba(11,14,31,.75))!important;box-shadow:none!important;padding:20px 25px 27px!important}
+#gxOrbitLab #gxol-player:before{content:"";position:absolute;inset:-18px -2% auto;height:56px;background:radial-gradient(ellipse at center,rgba(105,89,210,.17),transparent 70%);pointer-events:none}
+#gxOrbitLab #gxol-original{margin-top:4px!important;border:0!important;border-radius:0 0 22px 22px!important;background:linear-gradient(180deg,rgba(11,14,31,.75),rgba(11,13,30,.52))!important;padding:26px 16px 14px!important;box-shadow:none!important}
+#gxOrbitLab .gxol-original-heading{margin:0 0 12px!important;padding:6px 7px!important}
+#gxOrbitLab .gxol-original-heading h2{margin:9px 0 0!important}
+#gxOrbitLab .gxol-original-heading>a{border:0!important;background:rgba(131,112,225,.11)!important;color:#c6c6ee!important}
+#gxOrbitLab .gxol-frame-info[hidden]{display:none!important}
+#gxOrbitLab .gxol-privacy-footer{font:400 .63rem/1.6 Arial,sans-serif;letter-spacing:.01em;text-align:right;color:#787d9b;margin:9px 8px 0!important}
+#gxOrbitLab .gxol-live-kicker{display:inline-flex;align-items:center;gap:9px;color:#c8b8ff!important}
+#gxOrbitLab .gxol-live-kicker-dot{width:7px;height:7px;display:inline-block;flex:none;border-radius:50%;background:#64ffc5;box-shadow:0 0 10px rgba(83,254,196,.8);animation:gxolLivePulse 2.1s ease-in-out infinite}
+#gxOrbitLab .gxol-live-kicker-wave{font:600 .75rem/1 'JetBrains Mono',monospace;color:#8dbaff;letter-spacing:1px;animation:gxolLiveWave 1.8s ease-in-out infinite}
+@keyframes gxolLivePulse{0%,100%{opacity:.5;transform:scale(.84)}50%{opacity:1;transform:scale(1.22)}}
+@keyframes gxolLiveWave{0%,100%{opacity:.55;filter:brightness(.8)}50%{opacity:1;filter:brightness(1.35)}}
+@media(max-width:760px){#gxOrbitLab #gxol-player{padding:18px 12px 22px!important}#gxOrbitLab #gxol-original{padding:18px 5px 9px!important}#gxOrbitLab .gxol-privacy-footer{text-align:center;font-size:.61rem;margin:9px 12px!important}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-live-kicker-dot,#gxOrbitLab .gxol-live-kicker-wave{animation:none!important}}
+</style>
+<div class="starfield" aria-hidden="true"></div>
+<div class="shell">
+<header class="top gxol-site-top">
+<a class="gxol-site-logo" href="/" aria-label="Noe Bortolussi Home"><img src="https://noebortolussi.com/wp-content/uploads/2026/06/BLANCO-scaled.png" alt="Noe Bortolussi"></a>
+<nav class="gxol-site-links" id="gxolSiteLinks" aria-label="Main navigation"><a href="/#about">About</a><a href="/#dates">Dates</a><a href="/#releases">Releases</a><a href="/#studio">Studio</a><a href="/#diary">DJ Diary</a><a href="/galactica-radio-orbital-lab/" aria-current="page">Live Radio</a></nav>
+<button type="button" class="gxol-site-menu" id="gxolSiteMenu" aria-expanded="false" aria-controls="gxolSiteLinks" aria-label="Menu"><span></span><span></span></button>
+</header>
+<p><main></p>
+<section class="hero">
+<div class="hero-copy">
+<div class="kicker"><i></i> Global electronic broadcast</div>
+<h1>GALACTICA<br /><em>LIVE RADIO</em></h1>
+
+<div class="gxol-mode-status" id="gxolModeStatus"><div class="gxol-mode-tag active" id="gxolSetsMode"><span>24/7 DJ SETS</span><strong id="gxolSetsText">ON AIR</strong></div><div class="gxol-mode-tag" id="gxolLiveMode"><span>LIVE BROADCAST</span><strong id="gxolLiveText">OFFLINE</strong></div></div>
+</div>
+<div class="orb-stage">
+<div class="orb-halo"></div>
+<div class="gxol-play-orbit" aria-label="Orbital radio player"><a id="gxolPlayActual" class="gxol-orb-play" href="/live-radio/" title="Play or pause GALACTICA Live Radio" aria-label="Play GALACTICA Live Radio"><span class="gxol-play-symbol" aria-hidden="true">▶</span></a></div>
+<canvas id="gxOrbCanvas" role="img" aria-label="Animated procedural orbital sphere"></canvas>
+</div>
+<aside class="gxol-hero-schedule gxol-fuel-station" aria-label="GALACTICA project support">
+ <div class="gxol-hero-schedule-head"><span class="micro">GLOBAL BROADCAST</span><span class="gxol-hero-live"><i></i> 24/7</span></div>
+ <h3>SPACESHIP FUEL</h3>
+ <div class="gxol-fuel-visual"><div class="gxol-fuel-alien" id="gxolFuelAlien" aria-hidden="true"><span class="gxol-alien-orbit gxol-alien-orbit-one"></span><span class="gxol-alien-orbit gxol-alien-orbit-two"></span><svg class="gxol-alien-face" viewBox="0 0 64 64" focusable="false"><defs><linearGradient id="gxolFuelAlienGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d7a2ff"></stop><stop offset="55%" stop-color="#a466ff"></stop><stop offset="100%" stop-color="#ff4db4"></stop></linearGradient></defs><path d="M32 5C19.5 5 10 14.6 10 27.1c0 15.6 11.9 27.6 22 31.9 10.1-4.3 22-16.3 22-31.9C54 14.6 44.5 5 32 5Z" fill="url(#gxolFuelAlienGradient)"></path><ellipse class="gxol-alien-eye" cx="23.5" cy="29" rx="6.4" ry="10.4" transform="rotate(-27 23.5 29)" fill="#060515"></ellipse><ellipse class="gxol-alien-eye" cx="40.5" cy="29" rx="6.4" ry="10.4" transform="rotate(27 40.5 29)" fill="#060515"></ellipse><path class="gxol-alien-mouth-normal" d="M24 43c5.2 3.3 10.8 3.3 16 0" fill="none" stroke="#060515" stroke-width="2.4" stroke-linecap="round"></path><path class="gxol-alien-mouth-happy" d="M22 41Q32 58 42 41Q32 46 22 41Z" fill="#230c35" stroke="#060515" stroke-width="1.5" stroke-linejoin="round"></path><ellipse class="gxol-alien-blush gxol-alien-blush-left" cx="17" cy="39" rx="5" ry="3" fill="#ff93b9"></ellipse><ellipse class="gxol-alien-blush gxol-alien-blush-right" cx="47" cy="39" rx="5" ry="3" fill="#ff93b9"></ellipse></svg></div><svg class="gxol-launch-ship" viewBox="0 0 260 145" aria-hidden="true" focusable="false"><defs><linearGradient id="gxolShipBody" x1="0%" y1="0%" x2="100%" y2="100%"><stop stop-color="#cbeaff" offset="0%"/><stop stop-color="#678bd0" offset="30%"/><stop stop-color="#242c6b" offset="67%"/><stop stop-color="#0b123c" offset="100%"/></linearGradient><radialGradient id="gxolShipDome"><stop offset="0%" stop-color="#c8fbff" stop-opacity=".85"/><stop offset="100%" stop-color="#8068f1" stop-opacity=".22"/></radialGradient></defs><ellipse class="gxol-ship-beam" cx="130" cy="118" rx="77" ry="19" fill="#a18cff" opacity=".45"/><path d="M89 71Q92 22 130 20Q170 22 172 71Z" fill="url(#gxolShipDome)" stroke="#97d7ff" stroke-width="3"/><ellipse cx="130" cy="80" rx="121" ry="29" fill="url(#gxolShipBody)" stroke="#b1caff" stroke-width="4"/><ellipse cx="130" cy="86" rx="101" ry="12" fill="#263278" stroke="#baadff" stroke-width="2"/><g class="gxol-ship-lights" fill="#a6f6ff"><circle cx="57" cy="83" r="5"/><circle cx="92" cy="91" r="5"/><circle cx="130" cy="94" r="6"/><circle cx="168" cy="91" r="5"/><circle cx="203" cy="83" r="5"/></g></svg><span class="gxol-ship-thrust"></span><div class="gxol-fuel-coins" id="gxolFuelCoins" aria-hidden="true"></div><span class="gxol-fuel-spark gxol-fuel-spark-a"></span><span class="gxol-fuel-spark gxol-fuel-spark-b"></span><span class="gxol-fuel-spark gxol-fuel-spark-c"></span></div>
+ <div class="gxol-fuel-meter" id="gxolFuelMeter" aria-live="polite"><div class="gxol-fuel-meter-cells" id="gxolFuelCells" role="progressbar" aria-label="Energy supports recorded in GALACTICA Mission Control" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"></div><div class="gxol-fuel-meter-value" id="gxolFuelCount">Connecting to Mission Control…</div></div>
+ <a class="gxol-fuel-cta" href="https://paypal.me/main22label" target="_blank" rel="noopener noreferrer" aria-label="Support GALACTICA project via PayPal"><span class="gxol-fuel-copy"><strong>FUEL THE SPACESHIP</strong><small>Support the project</small></span></a>
+</aside>
+</section>
+<section id="gxol-player" class="panel broadcast" aria-label="Broadcast player design preview">
+<div class="broadcast-top"><div class="gxol-onair-left"><div id="gxolNowArtwork" class="gxol-now-artwork"><span>GALACTICA</span></div><div>
+<div class="micro">● NOW ON AIR <span class="gxol-air-wave">▂ ▅ ▇ ▃ ▆ ▂</span></div>
+<h2 id="gxolNowTitle">Connecting&#8230;</h2>
+<div class="gxol-now-label">CURRENT BROADCAST · MUSIC FOR EVERYONE</div><div id="gxolNowMeta" class="secondary">Tuning in to GALACTICA&#8230;</div><div class="gxol-current-actions"><a id="gxolTracklist" href="#" target="_blank" rel="noopener" hidden>☷ TRACKLIST</a><button id="gxolShare" type="button">↗ SHARE</button></div>
+</div>
+</div><div class="status">ONE GLOBAL STREAM</div>
+</div>
+<div class="wave-wrap"><canvas id="gxolWaveFX" aria-hidden="true"></canvas><canvas id="gxolWavePlus" aria-label="Generative multiband waveform"></canvas><canvas id="gxWaveCanvas" aria-label="Animated waveform design preview"></canvas>
+<div class="wave-caption">RADIO VISUAL · PREVIEW</div>
+</div>
+<div class="control-strip">
+<div class="controls"><button type="button" class="button-main" id="gxolMotion" aria-label="Pause ornamental animation">Ⅱ</button></p>
+<div class="control-note" hidden aria-hidden="true"><strong id="gxolMotionText"></strong></div>
+</div>
+
+</div>
+</section>
+<section class="mod-grid" id="gxol-rotation">
+<article class="panel panel-pad">
+<div class="micro">01 / BROADCAST</div>
+<h3>NOW ON AIR</h3>
+<div class="display-name" id="gxolNowCard">Connecting&#8230;</div>
+<div class="card-meta">One radio. One global sound.</div>
+<div class="signal"><b>◎</b><span id="gxolCatalogStatus">Discovering existing music catalog…</span></div>
+</article>
+<article class="panel panel-pad">
+<div class="micro">02 / UP NEXT</div>
+<h3>COMING UP NEXT</h3>
+<div class="display-name" id="gxolNext">Coming soon&#8230;</div>
+<div class="card-meta">Next set begins from its start for every listener · No manual skipping</div>
+</article>
+<article class="panel panel-pad">
+<div class="micro">03 / THE QUEUE</div>
+<h3>LATER IN ROTATION</h3>
+<div class="mini-card"><strong>Next + 1</strong><small>Lineup coming soon</small></div>
+<div class="mini-card"><strong>Next + 2</strong><small>Lineup coming soon</small></div>
+<div class="mini-card"><strong>Next + 3</strong><small>Lineup coming soon</small></div>
+</article>
+</section>
+<section class="lower">
+<article class="panel panel-pad" id="gxol-tuesday">
+<div class="micro">WEEKLY SHOW · 15:00 ARG</div>
+<h3>LIVE TUESDAY</h3>
+<p class="note">The weekly GALACTICA broadcast. Your local countdown is based on 15:00 in Argentina; actual stream takeover will be connected to the existing radio schedule.</p>
+<div class="countdown" id="gxolCountdown">— : — : —</div>
+<div class="card-meta" id="gxolLocal">Calculating next Tuesday…</div>
+</article>
+<article class="panel panel-pad" id="gxol-world">
+<div class="micro">ONE GLOBAL TIMELINE</div>
+<h3>ONE STREAM WORLDWIDE</h3>
+<div class="world"><canvas id="gxWorldCanvas" role="img" aria-label="Generative rotating orbital grid globe"></canvas></div>
+<div class="explain"><span>Electronic music. Around the clock.</span><span>Curated sets and live DJ broadcasts.</span></div>
+</article>
+<article class="panel panel-pad gxol-contribution"><div class="micro">COMMUNITY RADIO</div><h3>UPLOAD YOUR OWN SET</h3><p class="note">Bring your sound to GALACTICA.</p><label class="gxol-upload" for="gxolAudioFile">＋ CHOOSE YOUR SET</label><input type="file" id="gxolAudioFile" accept=".mp3,.wav,.flac,.aiff,audio/*"><p class="note" id="gxolFileHint">Coming soon · files are not uploaded yet.</p><div class="gxol-vote"><h3>COMMUNITY VOTING</h3><p class="note">Vote for your favorite guest mixes when submissions open.</p><button id="gxolVote" type="button" aria-pressed="false">♡ LOVE THIS IDEA</button><small id="gxolVoteHint">Design preview · no real votes yet</small></div></article>
+</section>
+<section class="gxol-original-zone" id="gxol-original"><div class="gxol-original-heading"><div><div class="micro gxol-live-kicker"><span class="gxol-live-kicker-dot" aria-hidden="true"></span> LIVE COMMUNITY <span class="gxol-live-kicker-wave" aria-hidden="true">▂ ▅ ▇ ▃ ▆</span></div><h2>GLOBAL LISTENING NETWORK</h2></div><a href="/live-radio/#signals" target="_blank" rel="noopener">FULL LIVE LOUNGE ↗</a></div><iframe id="gxolClassicFrame" src="/live-radio/#signals" loading="eager" title="GALACTICA original Mission Control and Live Lounge" referrerpolicy="strict-origin-when-cross-origin"></iframe><section id="gxolOutdoorMarquee" class="gxol-event-marquee" aria-label="GALACTICA events and flyers"><div class="gxol-marquee-bulbs" aria-hidden="true"></div><div class="gxol-marquee-head"><b>GALACTICA EVENTS</b><span class="gxol-marquee-live">THE LINEUP</span></div><div class="gxol-marquee-stage" aria-live="off"><div class="gxol-marquee-empty"><strong>COMING TO THE GALAXY</strong><p>Upcoming events · New transmissions</p></div></div><div class="gxol-marquee-foot"><button type="button" class="gxol-marquee-nav" data-dir="-1" aria-label="Previous event">‹</button><span class="gxol-marquee-count">EVENTS</span><button type="button" class="gxol-marquee-nav" data-dir="1" aria-label="Next event">›</button></div></section><p id="gxolFrameHelp" class="gxol-frame-info" hidden></p><p class="gxol-privacy-footer">Privacy: signal locations are approximate. Exact addresses and IPs are not displayed.</p></section>
+<script id="gxol-fuel-alien-reaction">
+(function(){
+ const root=document.getElementById('gxOrbitLab');if(!root)return;
+ const alien=root.querySelector('#gxolFuelAlien');
+ const coins=root.querySelector('#gxolFuelCoins');
+ const support=root.querySelector('.gxol-fuel-cta');
+ if(!alien||!coins||!support)return;
+ let resetTimer,clearCoinsTimer;
+ const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ function celebrate(){
+  const stage=alien.closest('.gxol-fuel-visual');
+  if(!stage)return;
+  stage.classList.remove('is-launching');
+  alien.classList.remove('is-happy');
+  coins.replaceChildren();
+  void stage.offsetWidth;
+  stage.classList.add('is-launching');
+  clearTimeout(resetTimer);
+  resetTimer=setTimeout(()=>stage.classList.remove('is-launching'),motion.matches?1500:3750);
+ }
+ let redirecting=false;
+ support.addEventListener('click',event=>{
+  if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  if(redirecting)return;
+  redirecting=true;
+  celebrate();
+  support.setAttribute('aria-busy','true');
+  const destination=support.href;
+  // Safari requires a new tab to be created during the click itself.
+  // Show the SAME launch animation in that tab first, then navigate it to PayPal.
+  // One gesture, one cinematic sequence, no extra "Continue" button.
+  const stage=alien.closest('.gxol-fuel-visual');
+  const styleNode=root.querySelector('style');
+  let paymentTab=null;
+  try{paymentTab=window.open('about:blank','_blank')}catch(error){}
+  if(paymentTab){
+   try{
+    paymentTab.opener=null;
+    const doc=paymentTab.document;
+    doc.open();
+    doc.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GALACTICA · Spaceship Fuel</title></head><body style="margin:0;background:#080b1f"></body></html>');
+    doc.close();
+    const css=doc.createElement('style');
+    css.textContent=(styleNode?.textContent||'')+'\nhtml,body{margin:0;min-height:100%;background:#080b1f!important}#gxOrbitLab{min-height:100svh!important;display:grid!important;place-items:center!important;padding:24px!important}#gxOrbitLab .gxol-fuel-visual{width:min(90vw,570px)!important;height:min(65vh,390px)!important;min-height:260px!important}';
+    doc.head.appendChild(css);
+    const scene=doc.createElement('div');
+    scene.id='gxOrbitLab';
+    scene.className='gxol';
+    const replica=stage.cloneNode(true);
+    replica.classList.remove('is-launching');
+    scene.appendChild(replica);
+    doc.body.appendChild(scene);
+    void replica.offsetWidth;
+    replica.classList.add('is-launching');
+   }catch(error){/* The page's own animation is already running. */}
+   window.setTimeout(()=>{
+    try{if(!paymentTab.closed)paymentTab.location.replace(destination)}catch(error){}
+   },motion.matches?650:3750);
+  }else{
+   // When Safari blocks the tab, do not interrupt the radio or fake a successful redirect.
+   support.removeAttribute('aria-busy');
+   redirecting=false;
+   support.setAttribute('title','Allow pop-up windows for this site to open PayPal automatically');
+  }
+  window.setTimeout(()=>{support.removeAttribute('aria-busy');redirecting=false},motion.matches?850:4000);
+ });
+})();
+</script>
+<script id="gxol-site-menu-script">
+(function(){
+ const root=document.getElementById('gxOrbitLab');if(!root)return;
+ const header=root.querySelector('.gxol-site-top'),button=root.querySelector('#gxolSiteMenu');
+ if(!header||!button)return;
+ button.addEventListener('click',()=>{const open=header.classList.toggle('is-open');button.setAttribute('aria-expanded',String(open))});
+ header.querySelectorAll('.gxol-site-links a').forEach(link=>link.addEventListener('click',()=>{header.classList.remove('is-open');button.setAttribute('aria-expanded','false')}));
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'){header.classList.remove('is-open');button.setAttribute('aria-expanded','false')}});
+})();
+</script>
+<script id="gxol-signals-integrity">
+(function(){
+ const root=document.getElementById('gxOrbitLab');
+ const frame=root?.querySelector('#gxolClassicFrame');
+ if(!root||!frame)return;
+ async function reconcile(){
+  let data;
+  try{const r=await fetch('/wp-json/galactica/v1/signals',{cache:'no-store',credentials:'same-origin'});if(!r.ok)return;data=await r.json()}catch(e){return}
+  const count=Number(data.total);
+  if(!Number.isFinite(count)||count<0)return;
+  const locations=Array.isArray(data.locations)?data.locations:[];
+  const city=typeof data.viewerCity==='string'?data.viewerCity.trim():'';
+  const country=typeof data.viewerCountry==='string'?data.viewerCountry.trim():'';
+  const cityLabel=city?city+(country?', '+country:''):'City not verified by signal detection';
+  const status=root.querySelector('#gxolPersonalLocation');
+  if(status)status.textContent='Your connection: '+cityLabel;
+  let doc;
+  try{doc=frame.contentDocument}catch(e){return}
+  if(!doc)return;
+  const head=doc.querySelector('.gx9-signals-head');
+  if(!head)return;
+  const summary=doc.getElementById('gxolVerifiedSignals');if(summary)summary.remove();
+  const list=doc.getElementById('gx9CountryList');
+  const world=doc.querySelector('.gxol-original-pair .gx9-world');
+  if(list?.parentNode){
+   if(list.parentNode!==world)world.appendChild(list);
+   if(!world.querySelector('.gxol-cosmos-layer')){
+    const cosmos=doc.createElement('div');
+    cosmos.className='gxol-cosmos-layer';
+    cosmos.setAttribute('aria-hidden','true');
+    const nebula=doc.createElement('span');nebula.className='gxol-cosmos-nebula';cosmos.appendChild(nebula);
+    const stars=doc.createElement('span');stars.className='gxol-cosmos-stars';
+    [[14,15],[76,11],[90,36],[23,69],[69,82],[36,28],[84,63],[9,87],[57,13]].forEach(([x,y],i)=>{
+     const star=doc.createElement('i');star.className='gxol-cosmos-twinkle';
+     star.style.left=x+'%';star.style.top=y+'%';star.style.animationDelay='-'+(i*.72)+'s';stars.appendChild(star);
+    });cosmos.appendChild(stars);
+    // Only subtle twinkling stars remain around the original world map.
+    world.insertBefore(cosmos,world.firstChild);
+   }
+   list.setAttribute('aria-label','Approximate listener locations on the signal map');
+   list.replaceChildren();
+   const flags={NL:'🇳🇱',AR:'🇦🇷',DE:'🇩🇪',GB:'🇬🇧',US:'🇺🇸',ES:'🇪🇸',FR:'🇫🇷',IT:'🇮🇹',AT:'🇦🇹',BE:'🇧🇪',PT:'🇵🇹',BR:'🇧🇷',CA:'🇨🇦',CH:'🇨🇭'};
+   const orderedLocations=locations.filter(loc=>Number(loc.count)>0).sort((a,b)=>{
+    const ac=String(a.country||''),bc=String(b.country||'');
+    const countryOrder=ac.localeCompare(bc);
+    return countryOrder||String(a.city||a.region||'').localeCompare(String(b.city||b.region||''));
+   });
+   orderedLocations.forEach(loc=>{
+    const n=Number(loc.count);if(!Number.isFinite(n)||n<=0)return;
+    const code=typeof loc.countryCode==='string'?loc.countryCode.toUpperCase():'';
+    const cityName=typeof loc.city==='string'?loc.city.trim():'';
+    const region=typeof loc.region==='string'?loc.region.trim():'';
+    const localName=cityName||region;
+    const countryName=typeof loc.country==='string'?loc.country.trim():'';
+    const locationName=localName?(countryName?localName+', '+countryName:localName):(countryName||'Location unavailable');
+    const row=doc.createElement('div');row.className='gx9-country';
+    const flag=doc.createElement('span');flag.className='gxol-location-flag';flag.textContent=flags[code]||'🌐';flag.setAttribute('aria-hidden','true');
+    const name=doc.createElement('span');name.className='gx9-country-name';name.textContent=locationName;
+    const number=doc.createElement('small');number.className='gx9-country-count';number.textContent=String(n);
+    row.append(flag,name,number);list.appendChild(row);
+   });
+   if(!list.children.length){const empty=doc.createElement('span');empty.className='gxol-no-location';empty.textContent='No active regions detected';list.appendChild(empty)}
+  }
+  // Scale the genuine signal map marker with the count provided by the radio backend.
+  // Use each node's existing accessible count; never synthesize connections.
+  doc.querySelectorAll('#gx9SignalPoints .gx9-signal-node').forEach(node=>{
+   const label=node.getAttribute('aria-label')||'';
+   const match=label.match(/:\s*(\d+)\s+signals?\b/i);
+   if(!match)return;
+   const count=Number(match[1]);
+   if(!Number.isFinite(count)||count<1)return;
+   const radius=Math.min(16,4.6+Math.sqrt(count)*2.25);
+   const dot=node.querySelector('.gx9-signal-dot');
+   const ring=node.querySelector('.gx9-signal-ring');
+   const core=node.querySelector('.gx9-signal-core');
+   if(dot)dot.setAttribute('r',radius.toFixed(1));
+   if(ring)ring.setAttribute('r',(radius+7).toFixed(1));
+   if(core)core.setAttribute('r',Math.min(3.6,1.7+Math.sqrt(count)*.4).toFixed(1));
+  });
+  const viewer=doc.getElementById('gx9YourSignal');
+  if(viewer)viewer.hidden=true;
+  const badge=doc.getElementById('gxolChatLocation');if(badge)badge.remove();
+  const note=doc.querySelector('.gx9-signals-note');if(note)note.hidden=true;
+  const mapText=doc.querySelector('.gx9-signals-manifesto');if(mapText)mapText.hidden=true;
+ }
+ frame.addEventListener('load',()=>{setTimeout(reconcile,1800);setTimeout(reconcile,4000)});
+ setInterval(reconcile,12000);
+ setTimeout(reconcile,3000);
+})();
+</script>
+<style id="gxol-event-marquee-css">
+#gxOrbitLab .gxol-event-marquee{box-sizing:border-box;position:relative;isolation:isolate;flex:1 1 auto;min-height:310px;margin:16px 0 3px;border-radius:15px;overflow:hidden;background:radial-gradient(ellipse at 50% 28%,rgba(95,72,198,.27),transparent 70%),linear-gradient(160deg,#10102f,#080b20 70%);border:1px solid rgba(161,148,237,.31);box-shadow:inset 0 0 37px rgba(81,52,171,.14),0 13px 39px rgba(0,0,0,.23)}
+#gxOrbitLab .gxol-event-marquee:before{content:"";position:absolute;inset:6px;border-radius:11px;border:1px solid rgba(200,187,255,.21);box-shadow:0 0 14px rgba(165,136,255,.13),inset 0 0 25px rgba(102,95,224,.13);pointer-events:none;z-index:2}
+#gxOrbitLab .gxol-marquee-bulbs{position:absolute;inset:0;pointer-events:none;z-index:3;background:radial-gradient(circle,rgba(227,224,255,.95) 0 1.1px,rgba(155,150,255,.33) 2px,transparent 4.8px) top 4px left 10px/20px 8px repeat-x,radial-gradient(circle,rgba(227,224,255,.9) 0 1.1px,rgba(155,150,255,.33) 2px,transparent 4.8px) bottom 4px left 10px/20px 8px repeat-x,radial-gradient(circle,rgba(227,224,255,.75) 0 1px,transparent 4px) top 10px left 4px/8px 20px repeat-y,radial-gradient(circle,rgba(227,224,255,.75) 0 1px,transparent 4px) top 10px right 4px/8px 20px repeat-y;filter:drop-shadow(0 0 5px rgba(143,158,255,.64))}
+#gxOrbitLab .gxol-marquee-head{position:absolute;z-index:4;top:21px;left:23px;right:23px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+#gxOrbitLab .gxol-marquee-head b{font:700 .61rem 'JetBrains Mono',monospace;letter-spacing:.16em;color:#e6e0ff;text-shadow:0 0 10px rgba(182,136,255,.4)}
+#gxOrbitLab .gxol-marquee-live{display:inline-flex;align-items:center;gap:6px;color:#b8baf5;font:600 .55rem 'JetBrains Mono',monospace;letter-spacing:.12em}
+#gxOrbitLab .gxol-marquee-live:before{content:"";height:5px;width:5px;background:#94daff;border-radius:50%;box-shadow:0 0 9px #8bd7ff}
+#gxOrbitLab .gxol-marquee-stage{position:absolute;inset:49px 17px 42px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#gxOrbitLab .gxol-marquee-slide{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:15px;padding:4px 13px;opacity:1;transform:translateX(0);transition:opacity .42s ease,transform .42s ease}
+#gxOrbitLab .gxol-marquee-slide.gxol-exit{opacity:0;transform:translateX(-11px)}
+#gxOrbitLab .gxol-marquee-poster{width:auto;max-width:66%;height:100%;max-height:290px;object-fit:contain;filter:drop-shadow(0 8px 17px rgba(0,0,0,.43));border-radius:4px}
+#gxOrbitLab .gxol-marquee-slide a{display:flex;align-items:center;justify-content:center;min-width:0;max-width:100%;height:100%}
+#gxOrbitLab .gxol-marquee-slide a:focus-visible{outline:2px solid #a2d6ff;outline-offset:4px}
+#gxOrbitLab .gxol-marquee-poster-label{font:600 .7rem/1.5 'JetBrains Mono',monospace;color:#eae4ff;max-width:40%;overflow-wrap:anywhere;text-align:left}
+#gxOrbitLab .gxol-marquee-poster-label small{display:block;margin-top:9px;color:#b3acd0;font:400 .62rem/1.5 'JetBrains Mono',monospace}
+#gxOrbitLab .gxol-marquee-empty{text-align:center;padding:0 22px}
+#gxOrbitLab .gxol-marquee-empty strong{display:block;font:400 clamp(.85rem,2.3vw,1.15rem)/1.4 GXEthno,Arial,sans-serif;color:#f0e8ff;text-shadow:0 0 26px rgba(137,107,255,.31)}
+#gxOrbitLab .gxol-marquee-empty p{margin:13px 0 0!important;font:.67rem/1.6 'JetBrains Mono',monospace;color:#aeaad1}
+#gxOrbitLab .gxol-marquee-foot{position:absolute;bottom:12px;left:16px;right:16px;z-index:4;display:flex;align-items:center;justify-content:center;gap:12px}
+#gxOrbitLab .gxol-marquee-nav{min-width:28px;min-height:28px;border:0!important;background:rgba(106,99,204,.2)!important;color:#dfd6ff!important;border-radius:50%!important;font:700 1.1rem Arial!important;display:grid!important;place-items:center;cursor:pointer}
+#gxOrbitLab .gxol-marquee-nav:focus-visible{outline:2px solid #99d5ff;outline-offset:2px}
+#gxOrbitLab .gxol-marquee-nav[hidden]{display:none!important}
+#gxOrbitLab .gxol-marquee-count{color:#bab5d8;font:600 .58rem 'JetBrains Mono',monospace;letter-spacing:.1em;min-width:50px;text-align:center}
+@media(max-width:760px){#gxOrbitLab .gxol-event-marquee{min-height:280px!important;flex:0 0 auto!important;margin:13px 0 0!important}#gxOrbitLab .gxol-marquee-stage{inset:48px 16px 40px}#gxOrbitLab .gxol-marquee-poster{max-width:58%;max-height:215px}#gxOrbitLab .gxol-marquee-poster-label{font-size:.65rem;max-width:43%}}
+@media(prefers-reduced-motion:reduce){#gxOrbitLab .gxol-marquee-slide{transition:none}}
+</style>
+<style id="gxol-event-outside-style">
+#gxOrbitLab #gxolOutdoorMarquee{position:absolute!important;z-index:12!important;left:var(--gxol-outdoor-left,22px)!important;top:var(--gxol-outdoor-top,435px)!important;width:var(--gxol-outdoor-width,33%)!important;height:var(--gxol-outdoor-height,350px)!important;min-height:245px!important;margin:0!important;pointer-events:auto!important}
+#gxOrbitLab #gxol-original{position:relative!important}
+@media(max-width:760px){#gxOrbitLab #gxolOutdoorMarquee{display:none!important}}
+
+/* EVENT PANEL V2 — visual continuity with Mission Control; no marquee bulbs */
+#gxOrbitLab .gxol-event-marquee{
+  border:1px solid rgba(125,98,218,.43)!important;
+  border-radius:18px!important;
+  background:radial-gradient(ellipse 75% 70% at 50% 35%,rgba(73,44,139,.19),transparent 76%),linear-gradient(145deg,rgba(13,9,35,.95),rgba(9,8,28,.98))!important;
+  box-shadow:inset 0 0 48px rgba(73,37,127,.1),0 9px 32px rgba(0,0,0,.12)!important;
+}
+#gxOrbitLab .gxol-event-marquee:before{inset:10px!important;border:1px solid rgba(104,77,190,.2)!important;border-radius:12px!important;box-shadow:none!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-bulbs{display:none!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-head{top:17px!important;left:19px!important;right:19px!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-head b{font-size:.57rem!important;font-weight:600!important;color:#baade8!important;letter-spacing:.13em!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-live{font-size:.54rem!important;color:#918dbc!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-stage{inset:47px 10px 40px!important;align-items:stretch!important;overflow:hidden!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-slide{display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(95px,.8fr)!important;align-items:center!important;gap:14px!important;padding:2px 10px!important;height:100%!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-slide a{width:100%!important;max-width:100%!important;height:100%!important;min-height:0!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:visible!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-poster{width:auto!important;max-width:100%!important;height:100%!important;max-height:none!important;object-fit:contain!important;object-position:center center!important;border-radius:4px!important;filter:drop-shadow(0 12px 22px rgba(0,0,0,.4))!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-poster-label{max-width:100%!important;width:100%!important;font-size:clamp(.72rem,1.2vw,.94rem)!important;line-height:1.5!important;font-weight:600!important;color:#eee8ff!important;overflow-wrap:anywhere!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-poster-label small{font-size:.69rem!important;line-height:1.55!important;color:#9f9cc5!important;letter-spacing:.02em!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-foot{bottom:10px!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-count{color:#aaa5d0!important}
+#gxOrbitLab .gxol-event-marquee .gxol-marquee-nav{background:rgba(80,63,137,.19)!important;border:1px solid rgba(148,117,238,.24)!important}
+@media(max-width:760px){
+ #gxOrbitLab .gxol-event-marquee{min-height:355px!important}
+ #gxOrbitLab .gxol-event-marquee .gxol-marquee-slide{grid-template-columns:minmax(0,1.4fr) minmax(70px,.8fr)!important;gap:10px!important;padding:2px 5px!important}
+ #gxOrbitLab .gxol-event-marquee .gxol-marquee-stage{inset:45px 10px 38px!important}
+ #gxOrbitLab .gxol-event-marquee .gxol-marquee-poster-label{font-size:.72rem!important}
+}
+</style>
+<script id="gxol-event-outside-script">
+(function(){
+ const root=document.getElementById('gxOrbitLab'),area=root?.querySelector('#gxol-original'),frame=root?.querySelector('#gxolClassicFrame');
+ if(!area||!frame)return;
+ const box=root.querySelector('#gxolOutdoorMarquee');if(!box)return;
+
+
+
+ let posters=[],idx=0,paused=false;
+ const label=s=>{const el=document.createElement('textarea');el.innerHTML=s||'';return el.value};
+ function place(){
+  if(matchMedia('(max-width:760px)').matches)return;
+  try{
+   const d=frame.contentDocument,world=d?.querySelector('#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world'),signals=d?.querySelector('#galactica-live-v9 .gxol-original-pair>.gx9-signals');
+   if(!world||!signals)return;
+   if(!d.getElementById('gxolMapEnlargementV2')){
+     const st=d.createElement('style');st.id='gxolMapEnlargementV2';
+     st.textContent='#galactica-live-v9 .gxol-original-pair>.gx9-signals{overflow:visible!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world{height:350px!important;min-height:350px!important;max-height:none!important;overflow:visible!important;display:flex!important;align-items:center!important;justify-content:center!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world svg{width:100%!important;height:340px!important;max-height:none!important;min-height:300px!important;display:block!important;transform:scale(1.055)!important;transform-origin:center!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-signals-grid{overflow:visible!important}@media(max-width:760px){#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world{height:265px!important;min-height:265px!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world svg{height:255px!important;min-height:220px!important;transform:scale(1.02)!important}}';
+     d.head.append(st);
+   }
+   const wr=world.getBoundingClientRect(),fr=frame.getBoundingClientRect(),sr=signals.getBoundingClientRect(),ar=area.getBoundingClientRect();
+   if(wr.width<100||!fr.width||!ar.width)return;
+   // The map is inside an iframe: its rectangle is relative to the iframe viewport.
+   // Convert both rectangles to the parent document's viewport before subtracting the panel origin.
+   const top=Math.max(0,(fr.top+wr.bottom)-ar.top+12);
+   const left=Math.max(0,(fr.left+wr.left)-ar.left);
+   const width=Math.max(220,Math.min(wr.width,ar.width-left-8,sr.width));
+   const remain=Math.max(245,(fr.bottom-ar.top)-top-22);
+   box.style.setProperty('--gxol-outdoor-top',Math.round(top)+'px');
+   box.style.setProperty('--gxol-outdoor-left',Math.round(left)+'px');
+   box.style.setProperty('--gxol-outdoor-width',Math.round(Math.max(220,width))+'px');
+   box.style.setProperty('--gxol-outdoor-height',Math.round(Math.max(245,Math.min(470,remain)))+'px');
+  }catch(e){}
+ }
+ function paint(){
+  const stage=box.querySelector('.gxol-marquee-stage'),count=box.querySelector('.gxol-marquee-count');
+  box.querySelectorAll('.gxol-marquee-nav').forEach(b=>b.hidden=posters.length<2);
+  if(!posters.length){count.textContent='EVENTS';return}
+  idx=(idx+posters.length)%posters.length;
+  const p=posters[idx],slide=document.createElement('div');slide.className='gxol-marquee-slide';
+  const link=document.createElement('a');link.href=p.link||p.image;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label','Open '+p.title);
+  const img=document.createElement('img');img.src=p.image;img.alt=p.title||'GALACTICA event flyer';img.className='gxol-marquee-poster';img.loading='lazy';link.append(img);
+  slide.append(link);
+  const name=document.createElement('div');name.className='gxol-marquee-poster-label';name.textContent=p.title||'GALACTICA';
+  const venue=document.createElement('small');venue.textContent=p.subtitle||'VIEW EVENT ↗';name.append(venue);slide.append(name);
+  stage.replaceChildren(slide);count.textContent=String(idx+1).padStart(2,'0')+' / '+String(posters.length).padStart(2,'0');
+ }
+ async function refresh(){
+  let next=[];
+  try{
+   const response=await fetch('/wp-json/galactica-flyers/v1/flyers',{cache:'no-store',credentials:'same-origin'});
+   if(response.ok){const data=await response.json();if(Array.isArray(data))next=data.filter(v=>v&&/^https?:\/\//.test(v.image)).map(v=>({title:v.title,subtitle:v.subtitle,image:v.image,link:v.url||v.full_image}))}
+  }catch(e){}
+  if(!next.length){
+   try{
+    const qs=new URLSearchParams({search:'GALACTICA FLYER',per_page:'100',_fields:'id,title,source_url,media_type'});
+    const response=await fetch('/wp-json/wp/v2/media?'+qs.toString(),{cache:'no-store',credentials:'same-origin'});
+    if(response.ok){const data=await response.json();next=data.filter(v=>v.media_type==='image'&&/^GALACTICA FLYER\b/i.test(label(v.title?.rendered))).map(v=>({title:label(v.title.rendered).replace(/^GALACTICA FLYER\s*[-:|–—]?\s*/i,''),image:v.source_url,link:v.source_url,subtitle:'VIEW FLYER ↗'}))}
+   }catch(e){}
+  }
+  posters=next;idx=0;paint();
+ }
+ box.querySelectorAll('[data-dir]').forEach(btn=>btn.addEventListener('click',()=>{idx+=Number(btn.dataset.dir);paint()}));
+ box.addEventListener('mouseenter',()=>paused=true);box.addEventListener('mouseleave',()=>paused=false);
+ box.addEventListener('focusin',()=>paused=true);box.addEventListener('focusout',()=>paused=false);
+ let x=0;box.addEventListener('touchstart',e=>{x=e.touches[0]?.clientX||0},{passive:true});
+ box.addEventListener('touchend',e=>{const delta=(e.changedTouches[0]?.clientX||0)-x;if(Math.abs(delta)>45){idx+=(delta<0?1:-1);paint()}},{passive:true});
+ frame.addEventListener('load',()=>{setTimeout(place,450);setTimeout(place,1800)});
+ window.addEventListener('resize',place,{passive:true});
+ setInterval(place,3500);setTimeout(place,400);
+ refresh();setInterval(refresh,60000);
+ setInterval(()=>{if(posters.length>1&&!paused&&!document.hidden){idx++;paint()}},6500);
+})();
+</script>
+<script id="gxol-event-marquee-script">
+(function(){
+ const root=document.getElementById('gxOrbitLab'),frame=root?.querySelector('#gxolClassicFrame');
+ if(!frame)return;
+ const slides=[];let current=0,ready=false,timer=null,paused=false;
+ function htmlDecode(s){const d=document.createElement('textarea');d.innerHTML=s||'';return d.value}
+ function createMarquee(doc){
+  const signals=doc.querySelector('#galactica-live-v9 .gxol-original-pair>.gx9-signals');
+  if(!signals)return;
+  if(doc.getElementById('gxolEventMarquee'))return;
+  const panel=doc.createElement('section');panel.id='gxolEventMarquee';panel.className='gxol-event-marquee';panel.setAttribute('aria-label','GALACTICA upcoming events and flyers');
+  panel.innerHTML='<div class="gxol-marquee-bulbs" aria-hidden="true"></div><div class="gxol-marquee-head"><b>GALACTICA EVENTS</b><span class="gxol-marquee-live">THE LINEUP</span></div><div class="gxol-marquee-stage" aria-live="off"><div class="gxol-marquee-empty"><strong>THE NEXT TRANSMISSION</strong><p>Upcoming shows, events and announcements</p></div></div><div class="gxol-marquee-foot"><button class="gxol-marquee-nav" data-dir="-1" aria-label="Previous flyer">‹</button><span class="gxol-marquee-count">EVENTS</span><button class="gxol-marquee-nav" data-dir="1" aria-label="Next flyer">›</button></div>';
+  signals.appendChild(panel);
+  const st=doc.createElement('style');st.id='gxolEventMarqueeInnerStyle';st.textContent=[
+   '#galactica-live-v9 .gxol-original-pair>.gx9-signals{display:flex!important;flex-direction:column!important;align-items:stretch!important;min-height:660px!important}',
+   '#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-signals-head,#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-signals-grid{flex:0 0 auto!important}',
+   '#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world{min-height:210px!important}',
+   ((document.getElementById('gxol-event-marquee-css')?.textContent||'')+'\n'+(document.getElementById('gxol-event-outside-style')?.textContent||'')).replaceAll('#gxOrbitLab ', '#galactica-live-v9 ').replaceAll('#gxOrbitLab', '#galactica-live-v9'),
+   '#galactica-live-v9 .gxol-original-pair>.gx9-signals>.gxol-event-marquee{display:none!important}',
+   '@media(max-width:760px){#galactica-live-v9 .gxol-original-pair>.gx9-signals{min-height:0!important;height:auto!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-world{min-height:195px!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals>.gxol-event-marquee{display:block!important}}'
+  ].join('\n');doc.head.appendChild(st);
+  panel.addEventListener('mouseenter',()=>paused=true);panel.addEventListener('mouseleave',()=>paused=false);
+  panel.addEventListener('focusin',()=>paused=true);panel.addEventListener('focusout',()=>paused=false);
+  panel.querySelectorAll('[data-dir]').forEach(btn=>btn.addEventListener('click',()=>show(current+Number(btn.dataset.dir))));
+  let x=0;panel.addEventListener('touchstart',e=>{x=e.touches[0]?.clientX||0},{passive:true});
+  panel.addEventListener('touchend',e=>{let delta=(e.changedTouches[0]?.clientX||0)-x;if(Math.abs(delta)>45)show(current+(delta<0?1:-1))},{passive:true});
+  render();
+ }
+ function render(){
+  let doc;try{doc=frame.contentDocument}catch(e){return}
+  const panel=doc?.getElementById('gxolEventMarquee');if(!panel)return;
+  const stage=panel.querySelector('.gxol-marquee-stage'),counter=panel.querySelector('.gxol-marquee-count');
+  const buttons=panel.querySelectorAll('.gxol-marquee-nav');
+  buttons.forEach(b=>b.hidden=slides.length<=1);
+  if(!slides.length){counter.textContent='EVENTS';return}
+  current=((current%slides.length)+slides.length)%slides.length;
+  let item=slides[current];stage.replaceChildren();
+  const slide=doc.createElement('div');slide.className='gxol-marquee-slide';
+  const link=doc.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';link.title='Open event flyer';
+  const img=doc.createElement('img');img.src=item.url;img.alt=item.title||'GALACTICA event flyer';img.className='gxol-marquee-poster';img.loading='lazy';
+  link.appendChild(img);slide.appendChild(link);
+  const desc=doc.createElement('div');desc.className='gxol-marquee-poster-label';desc.textContent=item.title||'GALACTICA EVENT';
+  const small=doc.createElement('small');small.textContent='VIEW FLYER ↗';desc.append(small);slide.append(desc);stage.append(slide);
+  counter.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+ }
+ function show(n){if(!slides.length)return;current=n;render()}
+ async function load(){
+  try{
+   const qs=new URLSearchParams({search:'GALACTICA FLYER',per_page:'100',_fields:'id,title,source_url,media_type,mime_type,alt_text'});const api=await fetch('/wp-json/galactica-flyers/v1/flyers',{cache:'no-store',credentials:'same-origin'});const r=api.ok?api:await fetch('/wp-json/wp/v2/media?'+qs.toString(),{cache:'no-store',credentials:'same-origin'});
+   if(!r.ok)throw Error('Flyer library unavailable');
+   const media=await r.json(),found=api.ok?media.filter(x=>x&&x.image).map(x=>({title:x.title||'GALACTICA EVENT',url:x.image,link:x.url||x.full_image})):media.filter(x=>x.media_type==='image'&&/^GALACTICA FLYER\b/i.test(htmlDecode(x.title?.rendered||''))).map(x=>({title:htmlDecode(x.title?.rendered||'').replace(/^GALACTICA FLYER\s*[-:|–—]?\s*/i,'').trim(),url:x.source_url}));
+   slides.splice(0,slides.length,...found);current=0;ready=true;render();
+  }catch(e){ready=false}
+ }
+ function mount(){try{createMarquee(frame.contentDocument)}catch(e){}}
+ frame.addEventListener('load',()=>{setTimeout(mount,900);setTimeout(mount,2500)});
+ setInterval(mount,3000);
+ load();setInterval(load,120000);
+ timer=setInterval(()=>{if(slides.length>1&&!paused&&!document.hidden)show(current+1)},6500);
+})();
+</script>
+<script id="gxol-lounge-readability">
+(function(){
+ const lab=document.getElementById('gxOrbitLab'), frame=lab?.querySelector('#gxolClassicFrame');
+ if(!frame)return;
+ const css=[
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair>.gx9-chat{background:rgba(11,12,37,.58)!important;border:1px solid rgba(170,145,255,.22)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-messages{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:13px!important;padding:19px 18px 24px!important;min-height:260px!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg{box-sizing:border-box!important;align-self:flex-start!important;width:fit-content!important;max-width:min(88%,640px)!important;min-width:0!important;min-height:0!important;padding:15px 18px!important;border-radius:5px 16px 16px 16px!important;background:linear-gradient(125deg,rgba(66,88,159,.29),rgba(43,44,99,.4))!important;border:1px solid rgba(138,162,244,.22)!important;box-shadow:0 6px 22px rgba(1,2,15,.11)!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg.gxol-my-msg{align-self:flex-end!important;background:linear-gradient(130deg,rgba(88,57,153,.43),rgba(69,42,136,.39))!important;border-color:rgba(184,141,255,.31)!important;border-radius:16px 5px 16px 16px!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg:has(.gx9-reply-quote){min-width:min(275px,75%)!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg p{font-size:1rem!important;line-height:1.6!important;letter-spacing:.006em!important;color:#f4f0ff!important;margin:6px 0 0!important;overflow-wrap:anywhere!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg .gx9-reply-quote{display:block!important;box-sizing:border-box!important;width:fit-content!important;max-width:min(72%,290px)!important;min-width:0!important;margin:0 0 11px!important;padding:7px 11px!important;border-radius:8px!important;background:rgba(7,11,32,.44)!important;border:0!important;border-left:2px solid rgba(172,150,255,.54)!important;box-shadow:none!important;opacity:.83!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg .gx9-reply-quote strong{display:block!important;font-size:.69rem!important;line-height:1.25!important;font-weight:600!important;color:#bcb1e3!important;margin:0 0 2px!important;letter-spacing:0!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg .gx9-reply-quote span{display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;max-width:100%!important;font-size:.73rem!important;line-height:1.35!important;font-weight:400!important;color:#c6c0d9!important;word-break:break-word!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg .gx9-reply-quote p{font-size:.73rem!important;line-height:1.35!important;color:#c6c0d9!important;margin:0!important}',
+
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg-name,html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg strong{font-size:.87rem!important;line-height:1.4!important;color:#f5eaff!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg time{font-size:.72rem!important;color:#c2bdd8!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg-reply-btn{font-size:.79rem!important;min-height:30px!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-chat h2{font-size:clamp(1rem,2vw,1.4rem)!important;line-height:1.3!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-field{font-size:1rem!important;min-height:46px!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-chat{display:flex!important;flex-direction:column!important;overflow:hidden!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-chat-head{padding:17px 20px!important;border-bottom:1px solid rgba(178,151,250,.13)!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-messages{flex:1 1 auto!important;overflow-y:auto!important;scroll-behavior:smooth;overscroll-behavior:contain}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-compose{flex:0 0 auto!important;margin-top:auto!important;background:rgba(16,18,47,.92)!important;border-top:1px solid rgba(178,151,250,.18)!important;padding:12px 15px!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-auth{flex:0 0 auto!important;font-size:.88rem!important;line-height:1.5!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-reply-target{flex:0 0 auto!important;font-size:.82rem!important;max-width:100%!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-reply-target-text{font-size:.79rem!important;line-height:1.3!important;max-width:100%!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-reply-target-label{font-size:.71rem!important;color:#cbbbed!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair>.gx9-signals{visibility:visible!important;opacity:1!important;display:block!important;min-width:0!important;overflow:visible!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-signals-grid{display:block!important;width:100%!important;min-width:0!important;overflow:visible!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-world{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;width:100%!important;min-height:250px!important;height:auto!important;overflow:visible!important}',
+ 'html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-world svg{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:auto!important;min-height:170px!important;max-height:290px!important;overflow:visible!important}',
+ '@media(max-width:760px){html body #galactica-live-v9.gx9 .gxol-original-pair{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;height:auto!important;min-height:0!important;overflow:visible!important}html body #galactica-live-v9.gx9 .gxol-original-pair>.gx9-signals{position:relative!important;inset:auto!important;order:0!important;display:block!important;min-height:360px!important;height:auto!important;max-height:none!important;width:100%!important;padding:12px!important;margin:0!important}html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-world{min-height:210px!important;height:auto!important}html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-world svg{min-height:180px!important;max-height:245px!important}html body #galactica-live-v9.gx9 .gxol-original-pair>.gx9-chat{position:relative!important;inset:auto!important;order:1!important;display:flex!important;width:100%!important;min-height:540px!important;height:auto!important;margin:0!important;max-height:none!important}}',
+ '@media(max-width:760px){html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-messages{padding:13px 11px 17px!important;gap:10px!important}html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg{padding:14px 15px!important}html body #galactica-live-v9.gx9 .gxol-original-pair .gx9-msg p{font-size:1rem!important;line-height:1.55!important}}'
+ ].join('\n');
+ function enhance(){
+  try{
+   const doc=frame.contentDocument;
+   if(!doc||!doc.querySelector('#galactica-live-v9 .gxol-original-pair'))return;
+   let style=doc.getElementById('gxolLoungeReadabilityV1');
+   if(!style){style=doc.createElement('style');style.id='gxolLoungeReadabilityV1';doc.head.appendChild(style)}
+   style.textContent=css;
+   if(window.innerWidth<=760){
+     requestAnimationFrame(()=>{
+       const pair=doc.querySelector('#galactica-live-v9 .gxol-original-pair');
+       if(pair){
+         const needed=Math.min(2400,Math.max(940,Math.ceil(pair.scrollHeight)+52));
+         frame.style.setProperty('height',needed+'px','important');
+         frame.style.setProperty('min-height',needed+'px','important');
+       }
+     });
+   }
+   const identifyOwn=()=>{
+     const me=(doc.getElementById('gx9UserName')?.textContent||'').trim().toLowerCase();
+     const valid=me && me!=='listener';
+     doc.querySelectorAll('#gx9Messages .gx9-msg').forEach(msg=>{
+       const sender=msg.querySelector('.gx9-msg-name,.gx9-msg-person strong,.gx9-msg-head strong,.gx9-msg-head .gx9-msg-person')||msg.querySelector(':scope > strong');
+       let name=(sender?.textContent||'').replace(/\b(now|today|yesterday)\b/gi,'').trim().toLowerCase();
+       msg.classList.toggle('gxol-my-msg',!!(valid&&name===me));
+     });
+   };
+   identifyOwn();
+   if(!doc._gxolChatDirectionObserver){
+     const list=doc.getElementById('gx9Messages');
+     if(list){
+       const observer=new MutationObserver(identifyOwn);
+       observer.observe(list,{childList:true,subtree:true});
+       doc._gxolChatDirectionObserver=observer;
+     }
+   }
+  }catch(e){}
+ }
+ frame.addEventListener('load',()=>{setTimeout(enhance,700);setTimeout(enhance,1800)});
+ let attempts=0;const id=setInterval(()=>{enhance();if(++attempts>=12)clearInterval(id)},1000);
+ enhance();
+})();
+</script>
+<style id="gxol-mobile-radio-repair">
+#gxOrbitLab .hero-copy>p,#gxOrbitLab .hero-copy>.promise,#gxOrbitLab .hero-copy>.gxol-mode-status{display:none!important}
+#gxOrbitLab .hero-copy{padding-bottom:0!important}
+#gxOrbitLab .orb-halo{border:0!important}
+@media(max-width:760px){
+ #gxOrbitLab .hero{display:flex!important;flex-direction:column!important;min-height:0!important;padding:16px 0 4px!important;gap:0!important}
+ #gxOrbitLab .hero-copy{order:0!important;min-height:0!important;padding:7px 4px 0!important;align-self:stretch!important}
+ #gxOrbitLab .hero .kicker{font-size:.58rem!important;letter-spacing:.12em!important}
+ #gxOrbitLab .hero h1{font-size:clamp(2.15rem,8.3vw,3.5rem)!important;line-height:1.12!important;margin:11px 0 0!important}
+ #gxOrbitLab .orb-stage{order:1!important;display:block!important;position:relative!important;width:100%!important;height:clamp(305px,94vw,425px)!important;min-height:305px!important;flex:0 0 auto!important;margin:0 auto!important;overflow:visible!important;isolation:isolate!important}
+ #gxOrbitLab #gxOrbCanvas{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:1!important}
+ #gxOrbitLab .gxol-play-orbit{display:flex!important;visibility:visible!important;opacity:1!important;position:absolute!important;z-index:40!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;width:162px!important;height:162px!important;pointer-events:none!important}
+ #gxOrbitLab #gxolPlayActual{display:grid!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:41!important;width:104px!important;height:104px!important;min-width:104px!important;min-height:104px!important;pointer-events:auto!important;touch-action:manipulation!important;place-items:center!important;border:0!important}
+ #gxOrbitLab .gxol-play-symbol{display:inline-block!important;visibility:visible!important;opacity:1!important;font-size:1.95rem!important;line-height:1!important}
+ #gxOrbitLab #gxol-original{display:block!important;margin-top:5px!important}
+ #gxOrbitLab #gxolClassicFrame{display:block!important;visibility:visible!important;width:100%!important;height:1280px!important;min-height:1280px!important;border:0!important}
+ #gxOrbitLab .gxol-original-heading{display:flex!important;flex-wrap:wrap!important;gap:10px!important}
+}
+</style>
+<script id="gxol-community-placement">
+(function(){
+  const root=document.getElementById('gxOrbitLab');
+  const player=root?.querySelector('#gxol-player');
+  const signals=root?.querySelector('#gxol-original');
+  if(player && signals && player.nextElementSibling!==signals){
+    player.insertAdjacentElement('afterend',signals);
+  }
+})();
+</script>
+<section class="timezone" aria-label="World clocks">
+<div class="city">LOS ANGELES<strong data-zone="America/Los_Angeles">–:–</strong></div>
+<div class="city">NEW YORK<strong data-zone="America/New_York">–:–</strong></div>
+<div class="city">LONDON<strong data-zone="Europe/London">–:–</strong></div>
+<div class="city">AMSTERDAM<strong data-zone="Europe/Amsterdam">–:–</strong></div>
+<div class="city">TOKYO<strong data-zone="Asia/Tokyo">–:–</strong></div>
+</section>
+</main>
+<footer class="foot"><span>GALACTICA · ORBITAL UI LAB V0.5</span><span>THREE.JS ORBITAL ENGINE · SHARED WORLDWIDE RADIO</span></footer>
+</div>
+<script type="module">
+(async function(){
+ const root=document.getElementById('gxOrbitLab');if(!root)return;
+ let running=true,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const toggle=root.querySelector('#gxolMotion');
+ toggle.addEventListener('click',()=>{running=!running;toggle.textContent=running?'Ⅱ':'▶';root.querySelector('#gxolMotionText').textContent=running?'Visual motion active':'Visual motion paused'});
+ const clock=()=>{const now=new Date();root.querySelectorAll('[data-zone]').forEach(el=>{el.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:el.dataset.zone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(now)});let next;for(let d=0;d<9;d++){const check=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()+d,18,0,0));if((check.getUTCDay()===2 ? check>now : false)){next=check;break}}if(!next)return;let sec=Math.max(0,Math.floor((next-now)/1000));const days=Math.floor(sec/86400);sec%=86400;const hrs=Math.floor(sec/3600);sec%=3600;const mins=Math.floor(sec/60);const rest=sec%60;root.querySelector('#gxolCountdown').textContent=(days?days+'D  ':'')+[hrs,mins,rest].map(x=>String(x).padStart(2,'0')).join(' : ');root.querySelector('#gxolLocal').textContent='Next Tuesday · '+new Intl.DateTimeFormat(undefined,{weekday:'long',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'}).format(next)};
+ clock();setInterval(clock,1000);
+ fetch('/wp-json/galactica-radio/v1/catalog',{credentials:'same-origin',cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('Catalog unavailable');return r.json()}).then(data=>{const count=Number(data.total_tracks||0);root.querySelector('#gxolCatalogStatus').textContent=count?count+' sets discovered in existing catalog':'Catalog reached; no track count returned'}).catch(()=>{root.querySelector('#gxolCatalogStatus').textContent='Catalog connection pending'});
+ const fit=(cv)=>{const b=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);cv.width=Math.max(2,Math.round(b.width*dpr));cv.height=Math.max(2,Math.round(b.height*dpr));return [cv.width,cv.height]};
+ const wave=root.querySelector('#gxWaveCanvas'),wctx=wave.getContext('2d');let waveTime=0;
+ function drawWave(){const [w,h]=fit(wave);const mid=h/2;wctx.clearRect(0,0,w,h);wctx.strokeStyle='rgba(123,139,208,.19)';wctx.lineWidth=1;wctx.beginPath();wctx.moveTo(0,mid);wctx.lineTo(w,mid);wctx.stroke();const total=Math.min(260,Math.max(75,Math.floor(w/4)));const cell=w/total;for(let i=0;i<total;i++){let x=(i+.5)*cell;const env=.26+.56*Math.abs(Math.sin(i*.062+1)*Math.cos(i*.024-.9));const raw=Math.abs(Math.sin(i*2.37)*Math.cos(i*.73)+.25*Math.sin(i*5.89));const v=Math.max(.045,Math.min(.98,(env*raw*.86+.055)));const pulsing=1+((running ? !reduced : false)?.12*Math.sin(waveTime+i*.21):0);const size=v*h*.43*pulsing;const g=wctx.createLinearGradient(0,mid-size,0,mid+size);g.addColorStop(0,i/total<.55?'rgba(202,128,255,.85)':'rgba(83,197,255,.85)');g.addColorStop(.5,'rgba(219,205,255,.99)');g.addColorStop(1,i/total<.55?'rgba(131,82,255,.68)':'rgba(54,125,255,.65)');wctx.strokeStyle=g;wctx.lineWidth=Math.max(1,cell*.49);wctx.beginPath();wctx.moveTo(x,mid-size);wctx.lineTo(x,mid+size);wctx.stroke()}if((running ? !reduced : false))waveTime+=.025;requestAnimationFrame(drawWave)}drawWave();
+ const wc=root.querySelector('#gxWorldCanvas'),ctx=wc.getContext('2d');let wt=0;function world(){const [w,h]=fit(wc),cx=w*.5,cy=h*.52,r=Math.min(h*.43,w*.25);ctx.clearRect(0,0,w,h);ctx.save();ctx.translate(cx,cy);ctx.shadowBlur=15;ctx.shadowColor='rgba(132,105,255,.38)';ctx.strokeStyle='rgba(122,163,255,.55)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0;for(let j=-3;j<=3;j++){const lat=j*Math.PI/9;ctx.beginPath();ctx.ellipse(0,r*.09*Math.sin(lat),r*Math.cos(lat),Math.max(1,r*.14*Math.cos(lat)),0,0,Math.PI*2);ctx.strokeStyle='rgba(123,103,234,.23)';ctx.stroke()}for(let j=0;j<8;j++){const a=j*Math.PI/8+((running ? !reduced : false)?wt:0);ctx.beginPath();ctx.ellipse(0,0,Math.max(2,r*Math.abs(Math.cos(a))),r,0,0,Math.PI*2);ctx.strokeStyle='rgba(109,168,250,.16)';ctx.stroke()}ctx.rotate(-.3);ctx.strokeStyle='rgba(178,133,255,.52)';ctx.beginPath();ctx.ellipse(0,0,r*1.55,r*.31,0,0,Math.PI*2);ctx.stroke();ctx.restore();if((running ? !reduced : false))wt+=.002;requestAnimationFrame(world)}world();
+ const canvas=root.querySelector('#gxOrbCanvas');let THREE;
+ try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js')}catch(err){const c=canvas.getContext('2d');if(c){const f=()=>{const [w,h]=fit(canvas);const rad=Math.min(w,h)*.29;c.clearRect(0,0,w,h);const g=c.createRadialGradient(w/2-rad*.27,h/2-rad*.25,rad*.1,w/2,h/2,rad*1.15);g.addColorStop(0,'#9870e9');g.addColorStop(.4,'#4132ae');g.addColorStop(.76,'#12194e');g.addColorStop(1,'rgba(6,9,32,0)');c.fillStyle=g;c.beginPath();c.arc(w/2,h/2,rad*1.18,0,Math.PI*2);c.fill();requestAnimationFrame(f)};f()}return}
+ const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.8));renderer.outputColorSpace=THREE.SRGBColorSpace;
+ const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(42,1,.1,100);camera.position.z=5.3;
+ const group=new THREE.Group();scene.add(group);
+ const mat=new THREE.ShaderMaterial({uniforms:{uTime:{value:0}},vertexShader:`uniform float uTime;varying vec3 vNormal;varying vec3 vPos;void main(){vec3 p=position;float t=uTime*.38;float waves=sin(p.x*3.8+t)*sin(p.y*4.3-t*.7)*sin(p.z*3.1+t*.5);float ripples=sin(length(p.xy)*8.5-t*2.2+p.z*2.7);float swell=sin(t*.67+p.y*2.)*.045;float d=waves*.105+ripples*.055+swell;p+=normalize(position)*d;vNormal=normalize(normalMatrix*normal);vPos=p;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}`,fragmentShader:`uniform float uTime;varying vec3 vNormal;varying vec3 vPos;float hash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}float noise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);}void main(){vec3 n=normalize(vNormal);float fres=pow(1.-abs(n.z),2.6);float z=noise(vPos*4.8+vec3(uTime*.14,-uTime*.09,.3));float fil=pow(smoothstep(.43,.75,z),2.);float detail=noise(vPos*11.+uTime*.065);vec3 c=mix(vec3(.035,.038,.17),vec3(.12,.22,.54),z);c+=vec3(.40,.10,.67)*fil*.9+vec3(.08,.38,.9)*pow(detail,6.)*.45;c+=fres*vec3(.40,.41,.98)*1.35;gl_FragColor=vec4(c,1.);}`,side:THREE.FrontSide});
+ const ball=new THREE.Mesh(new THREE.SphereGeometry(1.5,112,80),mat);group.add(ball);
+ const glowMat=new THREE.MeshBasicMaterial({color:0x7964ff,transparent:true,opacity:.055,side:THREE.BackSide,depthWrite:false});let aura=new THREE.Mesh(new THREE.SphereGeometry(1.68,40,32),glowMat);group.add(aura);
+ const rings=[];for(let i=0;i<3;i++){let rad=1.78+i*.18;let pts=[];for(let j=0;j<=300;j++){let a=j/300*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*rad,Math.sin(a)*rad,0))}let geom=new THREE.BufferGeometry().setFromPoints(pts),line=new THREE.Line(geom,new THREE.LineBasicMaterial({color:[0x9a75ff,0x55c3ff,0xc8a9ff][i],transparent:true,opacity:.10-i*.025}));line.rotation.x=.7+i*.33;line.rotation.y=.18+i*.28;group.add(line);rings.push(line)}
+ const plasmaOrbits=[];
+ for(let k=0;k<2;k++){const pts=[];for(let j=0;j<=140;j++){const a=(j/140)*Math.PI*(k===0?1.55:1.4)+(k===0?.2:1.9),r=1.89+.12*Math.sin(a*3+k*2);pts.push(new THREE.Vector3(r*Math.cos(a),r*.52*Math.sin(a),.27*Math.sin(a*1.8+k)))}const path=new THREE.CatmullRomCurve3(pts),tube=new THREE.Mesh(new THREE.TubeGeometry(path,130,k===0?.018:.012,6,false),new THREE.MeshBasicMaterial({color:k===0?0x75c6ff:0xb678ff,transparent:true,opacity:k===0?.78:.61,blending:THREE.AdditiveBlending,depthWrite:false}));tube.rotation.set(k===0?.63:-.74,k===0?-.23:.55,k===0?.2:-.48);tube.geometry.dispose();tube.material.dispose();}
+ const starCount=650,arr=new Float32Array(starCount*3);for(let i=0;i<starCount;i++){const r=2.5+Math.random()*3.1,a=Math.random()*Math.PI*2,z=(Math.random()-.5)*4.2;arr[i*3]=Math.cos(a)*r;arr[i*3+1]=Math.sin(a)*r;arr[i*3+2]=z}let starGeo=new THREE.BufferGeometry();starGeo.setAttribute('position',new THREE.BufferAttribute(arr,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({size:.013,color:0xa1baff,transparent:true,opacity:.64,depthWrite:false}));group.add(stars);
+ const ptr={x:0,y:0};canvas.addEventListener('pointermove',e=>{const b=canvas.getBoundingClientRect();ptr.x=(e.clientX-b.left)/b.width*2-1;ptr.y=(e.clientY-b.top)/b.height*2-1});canvas.addEventListener('pointerleave',()=>{ptr.x=0;ptr.y=0});
+ let lastW=0,lastH=0;const start=performance.now();function animate(){let b=canvas.getBoundingClientRect(),w=Math.max(1,b.width),h=Math.max(1,b.height);if(lastW!==w||lastH!==h){renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();lastW=w;lastH=h}if(running&&!reduced){mat.uniforms.uTime.value=(performance.now()-start)/1000;ball.rotation.y+=.0028;ball.rotation.x+=.00048;rings.forEach((r,i)=>{r.rotation.z+=i%2===0?.001:-.0013});stars.rotation.z+=.00012}group.rotation.y+=(ptr.x*.17-group.rotation.y)*.03;group.rotation.x+=(-ptr.y*.12-group.rotation.x)*.03;renderer.render(scene,camera);requestAnimationFrame(animate)}animate();
+})();
+</script>
+
+<script>
+(function(){
+const root=document.getElementById('gxOrbitLab');if(!root)return;
+const $=x=>root.querySelector('#'+x),set=(x,t)=>{const el=$(x);if(el)el.textContent=t},API=p=>fetch('/wp-json/'+p,{cache:'no-store',credentials:'same-origin'}).then(r=>{if(!r.ok)throw Error('offline');return r.json()});
+Promise.allSettled([API('galactica/v1/mission-control'),API('galactica-radio/v1/catalog')]).then(([sr,cr])=>{
+const state=sr.status==='fulfilled'?sr.value:null,c=state?.current||{},n=state?.next||{},catalog=cr.status==='fulfilled'?cr.value:null;
+if(state){set('gxolNowTitle',c.title||'GALACTICA Live Radio');set('gxolNowMeta',(c.artist||'GALACTICA')+' · '+(c.genre||'Electronic Music'));set('gxolNowCard',c.title||'GALACTICA 24/7');set('gxolNext',n.title||'Coming soon...')}
+let cover=c.coverUrl||'';
+if(catalog){for(const category of Object.values(catalog.categories||{})){if(cover)break;cover=category?.tracks?.find(t=>t.artwork_url)?.artwork_url||''}set('gxolCatalogStatus',(catalog.total_tracks||0)+' sets in the music library')}
+if(cover){const url=encodeURI(cover).replaceAll('"','');const art=$('gxolNowArtwork');if(art&&(!art.style.backgroundImage||art.style.backgroundImage==='none')){art.style.backgroundImage='url("'+url+'")';const cap=art.querySelector('span');if(cap)cap.hidden=true}}
+});
+$('gxolAudioFile')?.addEventListener('change',e=>{const f=e.target.files?.[0];set('gxolFileHint',f?'Selected: '+f.name+' · NOT uploaded':'Coming soon · files are not uploaded yet.')});
+$('gxolVote')?.addEventListener('click',e=>{const b=e.currentTarget,v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(v));b.textContent=v?'♥ LOVE IT':'♡ LOVE THIS IDEA';set('gxolVoteHint','Preview only · no vote is counted')});
+const wave=$('gxolWavePlus'),cx=wave.getContext('2d'),N=360,bins=Array.from({length:N},(_,i)=>Math.max(.055,Math.min(.95,(Math.abs(Math.sin(i*.39)*Math.cos(i*1.63)+.2*Math.sin(i*4.29)))*(.42+.35*Math.abs(Math.sin(i*.029)))+.06)));let tm=0;
+function renderWave(){let b=wave.getBoundingClientRect(),d=Math.min(1.6,devicePixelRatio||1),w=Math.round(b.width*d),h=Math.round(b.height*d);if(wave.width!==w||wave.height!==h){wave.width=w;wave.height=h}const mid=h*.5;cx.clearRect(0,0,w,h);cx.strokeStyle='rgba(112,140,226,.1)';cx.lineWidth=.6*d;
+for(let i=0;i<12;i++){let y=i*h/11;cx.beginPath();cx.moveTo(0,y);cx.lineTo(w,y);cx.stroke()}for(let i=0;i<18;i++){let x=i*w/17;cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,h);cx.stroke()}
+const g=cx.createLinearGradient(0,0,w,0);g.addColorStop(0,'#c687ff');g.addColorStop(.43,'#dba6ff');g.addColorStop(.7,'#9bbaff');g.addColorStop(1,'#6cddff');
+for(let i=0;i<N;i++){const x=(i+.5)*w/N,amp=(bins[i]+.045*Math.sin(i*.08+tm)+.025*Math.sin(i*.51+tm*2))*h*.41;cx.strokeStyle=g;cx.lineWidth=Math.max(.8,w/N*.56);cx.globalAlpha=.8;cx.beginPath();cx.moveTo(x,mid-amp);cx.lineTo(x,mid+amp);cx.stroke();cx.globalAlpha=.13;cx.beginPath();cx.moveTo(x,mid+amp+2);cx.lineTo(x,Math.min(h,mid+amp*1.32));cx.stroke();if(i%7===0){cx.globalAlpha=.7;cx.fillStyle=i<N*.6?'#ebc1ff':'#b4f1ff';cx.fillRect(x,mid-amp-2,1.3*d,1.3*d)}}cx.globalAlpha=1;
+for(let k=0;k<3;k++){cx.beginPath();for(let i=0;i<N;i++){let x=i*w/N,y=mid-(bins[i]*.66+.04*Math.sin(i*(.3+k*.2)+tm))*h*.4*(k%2?-1:1);if(!i)cx.moveTo(x,y);else cx.lineTo(x,y)}cx.strokeStyle=['rgba(250,220,255,.43)','rgba(105,165,255,.33)','rgba(186,132,255,.3)'][k];cx.lineWidth=.8*d;cx.stroke()}
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches)tm+=.019;requestAnimationFrame(renderWave)}renderWave();
+const map=$('gxolMissionCanvas'),mc=map.getContext('2d');let signals=[],phase=0;
+const load=()=>API('galactica/v1/signals').then(v=>{signals=(v.locations||[]).map(p=>({lat:Number(p.lat??p.latitude),lon:Number(p.lng??p.lon??p.longitude)})).filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon)&&(Math.abs(p.lat)<=90 ? Math.abs(p.lon)<=180 : false));set('gxolSignal',v.total?v.total+' live signals':'Waiting for listener signals...')}).catch(()=>set('gxolSignal','Connecting to Mission Control...'));load();setInterval(load,45000);
+function renderMap(){const b=map.getBoundingClientRect(),d=Math.min(1.5,devicePixelRatio||1),w=Math.round(b.width*d),h=Math.round(b.height*d);if(map.width!==w||map.height!==h){map.width=w;map.height=h}const x=w*.43,y=h*.53,r=Math.min(w*.35,h*.42);mc.clearRect(0,0,w,h);let glow=mc.createRadialGradient(x,y,0,x,y,r*1.75);glow.addColorStop(0,'rgba(71,99,228,.16)');glow.addColorStop(1,'rgba(25,31,72,0)');mc.fillStyle=glow;mc.fillRect(0,0,w,h);mc.save();mc.translate(x,y);mc.strokeStyle='rgba(129,167,255,.27)';mc.beginPath();mc.arc(0,0,r,0,Math.PI*2);mc.stroke();for(let j=-4;j<=4;j++){let a=j*Math.PI/11;mc.beginPath();mc.ellipse(0,0,Math.max(1,r*Math.cos(a)),Math.max(2,r*.2*Math.abs(Math.cos(a))),0,0,Math.PI*2);mc.strokeStyle='rgba(141,130,238,.15)';mc.stroke()}for(let j=0;j<15;j++){let a=j*Math.PI/15+phase*.0002;mc.beginPath();mc.ellipse(0,0,Math.max(.1,r*Math.abs(Math.cos(a))),r,0,0,Math.PI*2);mc.strokeStyle='rgba(110,169,255,.13)';mc.stroke()}mc.restore();
+const pts=signals.map(p=>({x:x+r*.87*p.lon/180,y:y-r*.87*p.lat/90}));for(let i=1;i<pts.length;i++){mc.beginPath();mc.moveTo(pts[i-1].x,pts[i-1].y);mc.lineTo(pts[i].x,pts[i].y);mc.strokeStyle='rgba(177,139,255,.2)';mc.stroke()}for(const p of pts){mc.beginPath();mc.arc(p.x,p.y,3*d,0,2*Math.PI);mc.fillStyle='#c9aaff';mc.shadowColor='#af93ff';mc.shadowBlur=12*d;mc.fill();mc.shadowBlur=0}if(!matchMedia('(prefers-reduced-motion:reduce)').matches)phase++;requestAnimationFrame(renderMap)}renderMap();
+const log=$('gxolChatMsgs'),form=$('gxolChatForm'),input=$('gxolChatInput'),send=$('gxolChatSend');let nonce='',last='';
+function drawMsg(m){let row=document.createElement('div');row.className='gxol-message';let av=document.createElement('div');av.className='gxol-avatar';if(m.avatar){let img=document.createElement('img');img.src=m.avatar;img.alt='';img.loading='lazy';av.append(img)}else av.textContent=String(m.name||'?').slice(0,1);let col=document.createElement('div'),name=document.createElement('strong'),msg=document.createElement('span');name.textContent=String(m.name||'Listener');msg.textContent=String(m.text||'');col.append(name,msg);row.append(av,col);return row}
+async function refresh(){try{let v=await API('galactica/v2/live-chat'),arr=Array.isArray(v.messages)?v.messages.slice(-18):[],sig=arr.map(a=>a.id||a.ts).join(',');if(sig===last)return;last=sig;log.replaceChildren();if(arr.length){let f=document.createDocumentFragment();arr.forEach(a=>f.append(drawMsg(a)));log.append(f);log.scrollTop=log.scrollHeight}else{log.textContent='No messages yet. Say hello!'}}catch(e){if(!last)log.textContent='Connecting to chat...'}}
+refresh();setInterval(refresh,16000);
+API('galactica-community/v1/status').then(s=>{if(s.loggedIn&&s.nonce){nonce=s.nonce;input.disabled=false;send.disabled=false;set('gxolChatHelp','Connected · Say hello to GALACTICA listeners')}else set('gxolChatHelp','Sign in to GALACTICA to write in chat')}).catch(()=>set('gxolChatHelp','Sign in to join the chat'));
+form.addEventListener('submit',async e=>{e.preventDefault();let message=input.value.trim();if(!nonce||!message)return;send.disabled=true;set('gxolChatHelp','Sending...');try{let r=await fetch('/wp-json/galactica/v2/live-chat',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-WP-Nonce':nonce},body:JSON.stringify({message})});if(!r.ok)throw Error('Send failed');input.value='';last='';await refresh();set('gxolChatHelp','Sent')}catch(err){set('gxolChatHelp','Could not send, please try again.')}finally{send.disabled=false}});
+})();
+</script>
+
+<script>
+(function(){
+ const root=document.getElementById('gxOrbitLab');if(!root)return;
+ const $=id=>root.querySelector('#'+id);
+ async function state(){
+  try{
+   const r=await fetch('/wp-json/galactica/v1/mission-control',{cache:'no-store',credentials:'same-origin'});if(!r.ok)return;
+   const v=await r.json(),live=v.mode==='live'||v.activeSource==='live'||v.requestedMode==='live';
+   $('gxolLiveMode')?.classList.toggle('active',live);$('gxolSetsMode')?.classList.toggle('active',!live);
+   if($('gxolLiveText'))$('gxolLiveText').textContent=live?'ON AIR':'OFFLINE';
+   if($('gxolSetsText'))$('gxolSetsText').textContent=live?'STANDBY':'ACTIVE';
+   const c=v.current||{},title=c.title||'GALACTICA LIVE RADIO',artist=c.artist||'GALACTICA';
+   if($('gxolNowTitle'))$('gxolNowTitle').textContent=title;
+   if($('gxolNowMeta'))$('gxolNowMeta').textContent=artist+(c.genre?' · '+c.genre:'');
+   if($('gxolNowCard'))$('gxolNowCard').textContent=title;
+   const track=$('gxolTracklist');if(track){if(c.tracklistUrl){track.href=c.tracklistUrl;track.hidden=false}else track.hidden=true}
+   const artwork=$('gxolNowArtwork');
+   if(artwork&&c.coverUrl){const safe=encodeURI(c.coverUrl).replaceAll('"','');artwork.style.backgroundImage='url("'+safe+'")';artwork.querySelector('span').textContent=''}
+  }catch(e){}
+ }
+ state();setInterval(state,30000);
+ $('gxolShare')?.addEventListener('click',async()=>{
+  const share={title:'GALACTICA Live Radio',text:'Listen to GALACTICA with me',url:'https://noebortolussi.com/live-radio/'};
+  try{if(navigator.share){await navigator.share(share)}else if(navigator.clipboard){await navigator.clipboard.writeText(share.url);$('gxolShare').textContent='✓ LINK COPIED';setTimeout(()=>{$('gxolShare').textContent='↗ SHARE'},2500)}else{window.prompt('Copy radio link',share.url)}}catch(e){}
+ });
+ const frame=$('gxolClassicFrame'),hint=$('gxolFrameHelp');
+ frame?.addEventListener('load',()=>{
+  try{
+   const doc=frame.contentDocument,source=doc.querySelector('#galactica-live-v9'),shell=source?.querySelector('.gx9-shell');
+   const originalMap=source?.querySelector('.gx9-signals'),originalChat=source?.querySelector('.gx9-chat');
+   if(!shell||!originalMap||!originalChat){hint.textContent='Original radio is available using OPEN ORIGINAL above.';return}
+   const parent=doc.createElement('section');parent.className='gxol-original-pair';
+   shell.appendChild(parent);parent.append(originalMap,originalChat);
+   for(const el of [...shell.children]){if(el!==parent)el.style.setProperty('display','none','important')}
+   const style=doc.createElement('style');
+   style.textContent='html,body{background:#070a19!important;margin:0!important;overflow-x:hidden!important}#galactica-live-v9{background:transparent!important;min-height:0!important}#galactica-live-v9 .gx9-shell{max-width:none!important;width:100%!important;padding:0!important}#galactica-live-v9 .gxol-original-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.14fr);gap:14px;align-items:start}#galactica-live-v9 .gx9-signals{min-width:0!important;margin:0!important;padding:14px!important;content-visibility:visible!important}#galactica-live-v9 .gx9-chat{min-height:690px!important;background:rgba(12,15,37,.68)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}#galactica-live-v9 .gx9-msg-reaction{display:none!important}@media(max-width:720px){#galactica-live-v9 .gxol-original-pair{grid-template-columns:1fr!important}#galactica-live-v9 .gx9-chat{min-height:520px!important}}';
+   doc.head.append(style);
+   const other=doc.querySelectorAll('body > *');
+   for(const el of other){if(el.contains(source))continue;el.style.setProperty('display','none','important')}
+   if(hint){hint.textContent='';hint.hidden=true;}
+  }catch(e){if(hint){hint.textContent='';hint.hidden=true;}}
+ });
+})();
+</script>
+
+<script>
+(function(){
+const r=document.getElementById('gxOrbitLab');if(!r)return;
+const f=r.querySelector('#gxolClassicFrame'),play=r.querySelector('#gxolPlayActual'),city=r.querySelector('#gxolPersonalLocation');
+async function location(){
+ try{const q=await fetch('/wp-json/galactica/v1/signals',{credentials:'same-origin',cache:'no-store'});const v=await q.json(),where=[v.viewerCity,v.viewerRegion,v.viewerCountry].filter(Boolean).join(', ');if(city)city.textContent=where?'Your connection: '+where:'Your connection: location unavailable';}catch(e){if(city)city.textContent='Your connection: location unavailable'}
+}
+location();setInterval(location,60000);
+play?.addEventListener('click',e=>{
+ try{const button=f?.contentDocument?.getElementById('gx9HeroPlayButton');if(button){e.preventDefault();button.click();const icon=play.querySelector('.gxol-play-symbol');if(icon){const next=icon.textContent==='▶'?'Ⅱ':'▶';icon.textContent=next;play.setAttribute('aria-label',next==='Ⅱ'?'Pause GALACTICA Live Radio':'Play GALACTICA Live Radio');play.classList.toggle('gxol-is-playing',next==='Ⅱ')}return}}catch(error){}
+ // The link to the original radio remains the fallback.
+});
+const overlayCSS=[
+'#galactica-live-v9 .gxol-original-pair .gx9-signals-head h2,#galactica-live-v9 .gxol-original-pair .gx9-signals-head .gx9-kicker{display:none!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat{width:80%!important;min-height:740px!important;background:rgba(9,13,34,.82)!important;border-radius:18px!important;border:1px solid rgba(142,163,254,.32)!important;box-shadow:0 22px 65px rgba(0,0,0,.45)!important;backdrop-filter:blur(8px)!important;overflow:hidden!important}',
+'html body #galactica-live-v9 .gx9-messages{min-height:450px!important;max-height:570px!important;gap:14px!important;padding:20px!important;overflow-y:auto!important}',
+'html body #galactica-live-v9 .gx9-msg{width:fit-content!important;min-width:165px!important;max-width:95%!important;padding:14px 17px!important;border:1px solid rgba(136,157,246,.3)!important;border-radius:17px 17px 17px 5px!important;background:rgba(28,34,69,.95)!important;box-shadow:0 8px 20px rgba(0,0,0,.17)!important}',
+'html body #galactica-live-v9 .gx9-msg p{font:400 1rem/1.62 Arial,Helvetica,sans-serif!important;color:#f6f4ff!important;overflow-wrap:anywhere!important}',
+'html body #galactica-live-v9 .gx9-msg-name{font:700 .9rem/1.4 Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#e7ddff!important}',
+'html body #galactica-live-v9 .gx9-msg-head time{font-size:.72rem!important;letter-spacing:0!important;color:#b4b5d3!important}',
+'html body #galactica-live-v9 .gx9-msg-avatar{width:36px!important;height:36px!important;flex-basis:36px!important}',
+'html body #galactica-live-v9 .gx9-chat-gif{width:min(330px,100%)!important;max-height:280px!important;height:auto!important;object-fit:contain!important;border-radius:12px!important}',
+'html body #galactica-live-v9 .gx9-msg-reply-btn{min-height:33px!important;font-size:.73rem!important;text-transform:none!important;letter-spacing:0!important;padding:6px 12px!important}',
+'html body #galactica-live-v9 .gx9-reply-quote{background:rgba(102,110,218,.18)!important;border-left:3px solid #a9b1ff!important;padding:11px 13px!important;border-radius:8px!important}',
+'html body #galactica-live-v9 .gx9-reply-quote span{font-size:.87rem!important;line-height:1.45!important}',
+'html body #galactica-live-v9 .gx9-compose{display:flex!important;align-items:center!important;gap:10px!important;padding:14px 16px!important;background:rgba(15,20,44,.96)!important}',
+'html body #galactica-live-v9 #gx9Message{flex:1!important;min-width:0!important;min-height:54px!important;padding:13px 17px!important;border-radius:27px!important;font-size:1rem!important;letter-spacing:0!important;border:1px solid rgba(153,176,255,.32)!important;background:rgba(44,51,89,.8)!important;color:#fff!important}',
+'html body #galactica-live-v9 #gx9Message:focus-visible{outline:2px solid #a5c4ff!important;outline-offset:1px!important}',
+'html body #galactica-live-v9 .gx9-send{display:grid!important;place-items:center!important;min-width:53px!important;width:53px!important;height:53px!important;border-radius:50%!important;background:linear-gradient(135deg,#8578df,#4f64c5)!important;border:1px solid rgba(170,206,255,.5)!important}',
+'html body #galactica-live-v9 .gx9-react{padding:10px 16px 17px!important;gap:8px!important;background:rgba(15,20,44,.92)!important}',
+'html body #galactica-live-v9 .gx9-gif-panel{background:rgba(11,15,35,.98)!important;border-radius:12px!important}',
+'html body #galactica-live-v9 .gx9-gif-results{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:375px!important;gap:10px!important}',
+'html body #galactica-live-v9 .gx9-gif-choice img{height:148px!important;object-fit:cover!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals{background:rgba(7,14,33,.22)!important}',
+'html body #galactica-live-v9 .gx9-land{fill:rgba(83,136,236,.14)!important;stroke:rgba(132,184,255,.52)!important;stroke-width:2!important}',
+'html body #galactica-live-v9 .gx9-signal-dot{fill:#83d5ff!important;stroke:#ecfaff!important;stroke-width:2!important;filter:drop-shadow(0 0 8px rgba(87,181,255,.8))!important}',
+'html body #galactica-live-v9 .gx9-country-list{gap:9px!important}',
+'html body #galactica-live-v9 .gx9-country{font:600 .83rem/1.4 Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#eff2ff!important;background:rgba(12,24,48,.7)!important;border:1px solid rgba(121,158,237,.28)!important;border-radius:10px!important;padding:10px 13px!important}',
+'html body #galactica-live-v9 .gx9-signals-note{font:400 .78rem/1.5 Arial,sans-serif!important;color:#c2cee8!important}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-original-pair .gx9-chat{width:calc(100% - 10px)!important;min-height:700px!important;margin:310px auto 4px!important}html body #galactica-live-v9 .gx9-messages{min-height:360px!important;max-height:470px!important;padding:13px!important}html body #galactica-live-v9 .gx9-gif-choice img{height:120px!important}}',
+'html,body{background:transparent!important;overflow-x:hidden!important}',
+'#galactica-live-v9,#galactica-live-v9 .gx9-shell{background:transparent!important}',
+'#galactica-live-v9 .gxol-original-pair{position:relative!important;display:block!important;min-height:650px!important;overflow:hidden!important;isolation:isolate!important}',
+'#galactica-live-v9 .gxol-original-pair .gx9-signals{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;display:block!important;padding:18px!important;margin:0!important;max-height:none!important;content-visibility:visible!important;background:transparent!important}',
+'#galactica-live-v9 .gxol-original-pair .gx9-signals .gx9-signals-grid{grid-template-columns:1fr!important}',
+'#galactica-live-v9 .gxol-original-pair .gx9-signals svg{max-height:480px!important;width:100%!important}',
+'#galactica-live-v9 .gxol-original-pair .gx9-chat{position:relative!important;z-index:2!important;width:57%!important;min-height:630px!important;margin:5px 5px 5px auto!important;background:rgba(9,12,29,.47)!important;border:1px solid rgba(180,142,255,.25)!important;backdrop-filter:blur(7px)!important;-webkit-backdrop-filter:blur(7px)!important}',
+'#galactica-live-v9 .gxol-original-pair .gx9-chat-head,#galactica-live-v9 .gxol-original-pair .gx9-compose{background:rgba(9,11,26,.18)!important}',
+'#galactica-live-v9 .gx9-msg-reaction{display:none!important}',
+'@media(max-width:760px){#galactica-live-v9 .gxol-original-pair{min-height:810px!important}#galactica-live-v9 .gxol-original-pair .gx9-chat{width:calc(100% - 12px)!important;min-height:460px!important;margin:300px auto 4px!important;background:rgba(9,11,28,.62)!important}#galactica-live-v9 .gxol-original-pair .gx9-signals svg{max-height:330px!important}}',
+'#galactica-live-v9 .gxol-original-pair .gx9-chat{width:84%!important;min-height:760px!important;background:rgba(9,13,31,.82)!important}',
+'#galactica-live-v9 .gx9-messages{display:flex!important;flex-direction:column!important;align-content:stretch!important;gap:4px!important;padding:12px 14px 18px!important;min-height:490px!important;max-height:630px!important}',
+'#galactica-live-v9 .gx9-msg{display:block!important;box-sizing:border-box!important;flex:0 0 auto!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;padding:13px 6px 15px!important;border:0!important;border-bottom:1px solid rgba(162,164,218,.12)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}',
+'#galactica-live-v9 .gx9-msg-head{display:flex!important;align-items:center!important;justify-content:space-between!important;margin:0 0 5px!important;gap:8px!important}',
+'#galactica-live-v9 .gx9-msg-person{gap:10px!important}',
+'#galactica-live-v9 .gx9-msg-name{font:700 .92rem/1.35 Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#e2d8ff!important}',
+'#galactica-live-v9 .gx9-msg-badge,#galactica-live-v9 .gx9-badge-list,#galactica-live-v9 .gx9-msg-badge[data-badge]{display:none!important}',
+'#galactica-live-v9 .gx9-msg-head time,#galactica-live-v9 .gx9-msg time{font:400 .72rem/1.3 Arial,sans-serif!important;color:#aaa9c7!important}',
+'#galactica-live-v9 .gx9-msg strong{font:700 .92rem/1.35 Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;align-items:center!important;margin:0 0 5px!important}',
+'#galactica-live-v9 .gx9-msg p{width:100%!important;max-width:none!important;margin:0!important;padding:1px 0 3px!important;border:0!important;background:none!important;box-shadow:none!important;font:400 1rem/1.62 Arial,sans-serif!important;color:#f1f0ff!important;overflow-wrap:anywhere!important}',
+'#galactica-live-v9 .gx9-msg-reply-btn{display:inline-flex!important;min-height:25px!important;width:auto!important;margin:5px 0 0 auto!important;padding:3px 6px!important;border:0!important;border-radius:4px!important;background:transparent!important;box-shadow:none!important;color:#a9bfff!important;font:500 .76rem/1.3 Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;opacity:.8}',
+'#galactica-live-v9 .gx9-msg-reply-btn:hover{color:#fff!important;background:rgba(90,115,205,.12)!important;opacity:1}',
+'#galactica-live-v9 .gx9-reply-quote{display:block!important;width:100%!important;max-width:none!important;margin:3px 0 9px!important;padding:7px 10px!important;border:0!important;border-left:2px solid rgba(149,163,255,.8)!important;border-radius:0!important;background:rgba(88,108,170,.10)!important;box-shadow:none!important}',
+'#galactica-live-v9 .gx9-reply-quote strong{margin:0 0 2px!important;font:600 .76rem/1.3 Arial,sans-serif!important;color:#c3c4ff!important}',
+'#galactica-live-v9 .gx9-reply-quote span{font:400 .85rem/1.45 Arial,sans-serif!important;color:#d0d4e5!important}',
+'#galactica-live-v9 .gx9-chat-gif{display:block!important;width:min(420px,100%)!important;max-width:100%!important;height:auto!important;max-height:340px!important;object-fit:contain!important;margin:7px 0!important}',
+'#galactica-live-v9 .gx9-compose{padding:13px 14px!important;gap:8px!important}',
+'#galactica-live-v9 #gx9Message{width:100%!important;min-width:0!important;flex:1!important}',
+'@media(max-width:760px){#galactica-live-v9 .gxol-original-pair .gx9-chat{width:calc(100% - 8px)!important}#galactica-live-v9 .gx9-messages{padding:9px 10px!important;min-height:390px!important;max-height:530px!important}#galactica-live-v9 .gx9-msg{width:100%!important;max-width:100%!important;padding:12px 3px!important}}',
+'html body #galactica-live-v9 .gxol-original-pair{display:grid!important;grid-template-columns:minmax(0,0.75fr) minmax(0,1.45fr)!important;align-items:stretch!important;gap:14px!important;min-height:780px!important;height:780px!important;overflow:visible!important;padding:4px!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals{position:relative!important;inset:auto!important;grid-column:1!important;width:100%!important;min-width:0!important;height:100%!important;min-height:0!important;max-height:780px!important;margin:0!important;padding:17px 13px!important;border:1px solid rgba(129,158,235,.27)!important;border-radius:16px!important;background:rgba(10,18,43,.8)!important;overflow:auto!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat{position:relative!important;grid-column:2!important;inset:auto!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-height:780px!important;margin:0!important;display:flex!important;flex-direction:column!important;border-radius:16px!important;background:rgba(10,16,40,.94)!important}',
+'html body #galactica-live-v9 .gx9-messages{flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;padding:18px 21px!important;gap:5px!important}',
+'html body #galactica-live-v9 .gx9-msg p{font:400 1.09rem/1.66 Arial,Helvetica,sans-serif!important;color:#f7f6ff!important}',
+'html body #galactica-live-v9 .gx9-msg-name{font:700 1rem/1.4 Arial,Helvetica,sans-serif!important}',
+'html body #galactica-live-v9 .gx9-msg-head time,html body #galactica-live-v9 .gx9-msg time{font:400 .83rem/1.3 Arial,sans-serif!important}',
+'html body #galactica-live-v9 .gx9-reply-quote span{font:400 .96rem/1.5 Arial,Helvetica,sans-serif!important}',
+'html body #galactica-live-v9 .gx9-msg-reply-btn{font-size:.87rem!important}',
+'html body #galactica-live-v9 #gx9Message{font:400 1.08rem/1.4 Arial,Helvetica,sans-serif!important;min-height:58px!important}',
+'html body #galactica-live-v9 .gx9-chat h2{font-size:1.18rem!important}',
+'html body #galactica-live-v9 .gx9-signals-grid{display:flex!important;flex-direction:column!important;gap:14px!important}',
+'html body #galactica-live-v9 .gx9-world{min-height:235px!important}html body #galactica-live-v9 .gx9-world svg{min-height:235px!important;width:100%!important}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-original-pair{display:flex!important;flex-direction:column!important;gap:12px!important;height:auto!important;min-height:0!important;padding:2px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-signals{width:100%!important;height:330px!important;max-height:330px!important;min-height:0!important;overflow:auto!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat{width:100%!important;height:710px!important;min-height:710px!important;max-height:none!important;margin:0!important}html body #galactica-live-v9 .gx9-messages{min-height:0!important;max-height:none!important;padding:13px!important}html body #galactica-live-v9 .gx9-msg p{font-size:1.02rem!important}}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals{padding:14px 12px!important;overflow:auto!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-head{margin-bottom:12px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-status-wrap{width:100%!important;display:flex!important;flex-wrap:wrap!important;gap:6px!important}',
+'html body #galactica-live-v9 .gxol-original-pair #gx9YourSignal{display:none!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-grid{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:15px!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world{width:100%!important;min-height:0!important;max-height:270px!important;border:0!important;border-radius:10px!important;overflow:hidden!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world svg{width:100%!important;min-height:0!important;height:auto!important;max-height:260px!important;object-fit:contain!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-country-list{grid-template-columns:1fr!important;gap:6px!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-country{min-height:39px!important;padding:8px 11px!important;font-size:.86rem!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-manifesto{font-size:.85rem!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-note{font-size:.73rem!important;line-height:1.5!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-head,html body #galactica-live-v9 .gxol-original-pair .gx9-signals-status-wrap,html body #galactica-live-v9 .gxol-original-pair .gx9-label,html body #galactica-live-v9 .gxol-original-pair .gx9-signals-manifesto,html body #galactica-live-v9 .gxol-original-pair .gx9-signals-note,html body #galactica-live-v9 .gxol-original-pair #gx9YourSignal{display:none!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals{background:radial-gradient(ellipse at 50% 43%,rgba(45,23,91,.32),rgba(8,10,30,.58) 75%)!important;border:0!important;border-radius:18px!important;padding:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-signals-grid{position:relative!important;display:flex!important;justify-content:center!important;align-items:center!important;width:100%!important;height:100%!important;min-height:0!important;gap:0!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:100%!important;min-height:450px!important;max-height:none!important;padding:11px 4px 76px!important;border:0!important;border-radius:14px!important;overflow:hidden!important;background:radial-gradient(circle at 50% 52%,rgba(105,60,178,.13),transparent 67%)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world svg{width:100%!important;height:auto!important;max-width:100%!important;max-height:410px!important;min-height:0!important;overflow:visible!important;transform:scale(1.03)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world #gx9CountryList{position:absolute!important;z-index:5!important;left:9px!important;right:9px!important;bottom:10px!important;display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:center!important;gap:7px!important;max-height:108px!important;overflow-y:auto!important;padding:0!important;margin:0!important;background:transparent!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world #gx9CountryList .gx9-country{display:inline-flex!important;align-items:center!important;gap:8px!important;min-height:35px!important;width:auto!important;max-width:100%!important;padding:7px 11px!important;margin:0!important;border:1px solid rgba(171,139,255,.28)!important;border-radius:24px!important;background:rgba(22,17,48,.86)!important;color:#f0ebff!important;box-shadow:0 3px 14px rgba(0,0,0,.12)!important;backdrop-filter:blur(8px)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gxol-location-flag{font-size:1.05rem!important;line-height:1!important}html body #galactica-live-v9 .gxol-original-pair .gx9-country-name{font:600 .77rem/1.25 Arial,sans-serif!important;letter-spacing:.015em!important;white-space:nowrap!important}html body #galactica-live-v9 .gxol-original-pair .gx9-country-count{font:700 .78rem/1.25 Arial,sans-serif!important;color:#b7a0ff!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat{border:0!important;background:rgba(12,15,36,.67)!important;box-shadow:none!important;border-radius:18px!important}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-original-pair .gx9-world{min-height:0!important;max-height:100%!important;padding:0 5px 50px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-world svg{max-height:190px!important;transform:scale(1.08)!important}html body #galactica-live-v9 .gxol-original-pair .gx9-world #gx9CountryList{bottom:4px!important;max-height:65px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-signals{height:305px!important;max-height:305px!important}}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world{isolation:isolate!important;position:relative!important;background:radial-gradient(ellipse at 45% 32%,rgba(71,48,134,.22),transparent 55%),radial-gradient(ellipse at 72% 66%,rgba(24,73,135,.13),transparent 47%),#090c25!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world .gxol-cosmos-layer{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important;border-radius:inherit!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world>svg{position:relative!important;z-index:2!important;filter:drop-shadow(0 0 11px rgba(151,110,250,.15))!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-world #gx9CountryList{z-index:4!important}',
+'html body #galactica-live-v9 .gxol-cosmos-nebula{position:absolute!important;inset:-15%!important;opacity:.7!important;background:radial-gradient(ellipse at 22% 25%,rgba(113,77,220,.18),transparent 35%),radial-gradient(ellipse at 79% 64%,rgba(22,85,162,.15),transparent 39%),radial-gradient(ellipse at 44% 72%,rgba(167,55,182,.13),transparent 33%)!important;filter:blur(14px)!important;animation:gxolNebulaDrift 22s ease-in-out infinite alternate!important}',
+'html body #galactica-live-v9 .gxol-cosmos-stars{position:absolute!important;inset:0!important;opacity:.67!important;background-image:radial-gradient(circle,#d8daff 1px,transparent 1.5px),radial-gradient(circle,#9d83ee .7px,transparent 1.4px)!important;background-size:69px 79px,113px 103px!important;background-position:12px 22px,45px 11px!important;animation:gxolStarTwinkle 7s ease-in-out infinite alternate!important}',
+'html body #galactica-live-v9 .gxol-cosmos-moon{position:absolute!important;top:11%!important;left:10%!important;width:46px!important;height:46px!important;border-radius:50%!important;background:radial-gradient(circle at 28% 26%,#dce0ff,#9fa7cc 49%,#505779 75%,#292c4c)!important;box-shadow:inset -10px -7px 13px rgba(20,18,52,.65),0 0 25px rgba(187,189,255,.25)!important;animation:gxolPlanetFloat 12s ease-in-out infinite!important}',
+'html body #galactica-live-v9 .gxol-cosmos-planet-blue{position:absolute!important;right:10%!important;top:17%!important;width:65px!important;height:65px!important;border-radius:50%!important;background:radial-gradient(circle at 31% 29%,#92d9ff 1%,#3d80bf 30%,#254e9e 57%,#101c50 85%)!important;box-shadow:inset -14px -9px 19px rgba(5,9,43,.8),0 0 29px rgba(64,119,236,.26)!important;animation:gxolPlanetFloat 15s ease-in-out infinite reverse!important}',
+'html body #galactica-live-v9 .gxol-cosmos-planet-ringed{position:absolute!important;left:13%!important;bottom:24%!important;width:58px!important;height:58px!important;border-radius:50%!important;background:radial-gradient(circle at 25% 23%,#f1d2bb,#b58bb9 40%,#7567aa 73%,#372c69)!important;box-shadow:inset -12px -6px 16px rgba(26,15,55,.68),0 0 22px rgba(188,132,225,.22)!important;animation:gxolPlanetFloat 17s ease-in-out infinite alternate!important}',
+'html body #galactica-live-v9 .gxol-cosmos-planet-ringed i{position:absolute!important;display:block!important;left:-24%!important;top:34%!important;width:148%!important;height:34%!important;border:3px solid rgba(214,188,235,.6)!important;border-radius:50%!important;transform:rotate(-24deg)!important;box-shadow:0 0 10px rgba(171,154,233,.2)!important}',
+'html body #galactica-live-v9 .gxol-cosmos-planet-small{position:absolute!important;right:19%!important;bottom:19%!important;width:26px!important;height:26px!important;border-radius:50%!important;background:radial-gradient(circle at 25% 25%,#f3cc91,#bd748b 52%,#563d74)!important;box-shadow:inset -7px -4px 10px rgba(33,13,54,.65),0 0 17px rgba(225,115,166,.2)!important;animation:gxolPlanetFloat 10s ease-in-out infinite!important}',
+'@keyframes gxolPlanetFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes gxolNebulaDrift{0%{transform:translate(-2%,1%) scale(1)}100%{transform:translate(2%,-2%) scale(1.05)}}@keyframes gxolStarTwinkle{from{opacity:.45}to{opacity:.85}}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-cosmos-moon{width:27px!important;height:27px!important}html body #galactica-live-v9 .gxol-cosmos-planet-blue{width:38px!important;height:38px!important}html body #galactica-live-v9 .gxol-cosmos-planet-ringed{width:34px!important;height:34px!important}html body #galactica-live-v9 .gxol-cosmos-planet-small{width:16px!important;height:16px!important}}',
+'@media(prefers-reduced-motion:reduce){html body #galactica-live-v9 .gxol-cosmos-layer *{animation:none!important}}',
+'html body #galactica-live-v9 .gxol-cosmos-nebula{opacity:.28!important;filter:blur(25px)!important;background:radial-gradient(ellipse at 46% 47%,rgba(87,62,175,.16),transparent 62%)!important}',
+'html body #galactica-live-v9 .gxol-cosmos-stars{background:none!important;background-image:none!important;animation:none!important;opacity:1!important}',
+'html body #galactica-live-v9 .gxol-cosmos-twinkle{position:absolute!important;display:block!important;width:2px!important;height:2px!important;border-radius:50%!important;background:#c3d7ff!important;box-shadow:0 0 7px rgba(147,190,255,.56)!important;animation:gxolQuietStar 4.8s ease-in-out infinite!important}',
+'html body #galactica-live-v9 .gxol-wire-planet{position:absolute!important;display:block!important;z-index:1!important;width:76px!important;height:76px!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;fill:none!important;filter:drop-shadow(0 0 7px rgba(114,153,243,.13))!important;opacity:.4!important;pointer-events:none!important;animation:gxolWireDrift 14s ease-in-out infinite alternate!important}',
+'html body #galactica-live-v9 .gxol-wire-moon{top:11%!important;left:9%!important;width:49px!important;height:49px!important;color:#b3b7ed!important;opacity:.31!important;animation-duration:17s!important}',
+'html body #galactica-live-v9 .gxol-wire-planet-blue{top:12%!important;right:7%!important;left:auto!important;width:74px!important;height:74px!important;color:#7da8f0!important;opacity:.39!important}',
+'html body #galactica-live-v9 .gxol-wire-planet-ringed{bottom:18%!important;left:7%!important;top:auto!important;width:68px!important;height:68px!important;color:#b6a6f1!important;opacity:.36!important;animation-delay:-6s!important}',
+'@keyframes gxolQuietStar{0%,100%{opacity:.12;transform:scale(.65)}38%{opacity:.75;transform:scale(1.4)}65%{opacity:.25;transform:scale(.8)}}@keyframes gxolWireDrift{from{transform:translate3d(0,0,0) rotate(-4deg)}to{transform:translate3d(2px,-8px,0) rotate(5deg)}}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-wire-moon{width:30px!important;height:30px!important}html body #galactica-live-v9 .gxol-wire-planet-blue{width:43px!important;height:43px!important}html body #galactica-live-v9 .gxol-wire-planet-ringed{width:39px!important;height:39px!important}}',
+'@media(prefers-reduced-motion:reduce){html body #galactica-live-v9 .gxol-wire-planet,html body #galactica-live-v9 .gxol-cosmos-twinkle{animation:none!important}}',
+'html body #galactica-live-v9 #gxolChatLocation{display:inline-flex!important;align-items:center!important;gap:6px!important;max-width:100%!important;padding:5px 9px!important;margin-top:9px!important;border-radius:9px!important;background:rgba(63,90,145,.2)!important;color:#dceaff!important;font:500 .84rem/1.4 Arial,Helvetica,sans-serif!important;letter-spacing:0!important;text-transform:none!important;white-space:normal!important;overflow-wrap:anywhere!important}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-original-pair .gx9-signals{height:310px!important;max-height:310px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-world svg{max-height:180px!important}}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-messages{padding:18px 21px 24px!important;gap:13px!important;background:transparent!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:5px!important;width:100%!important;min-width:0!important;max-width:100%!important;padding:4px 0 10px!important;margin:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-head{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;max-width:100%!important;margin:0 0 3px!important;padding:0 2px!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-name{font:700 .94rem/1.4 Arial,Helvetica,sans-serif!important;color:#c7a3ff!important;letter-spacing:0!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg time{font:400 .72rem/1.4 Arial,sans-serif!important;color:#86869e!important;opacity:.85!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg>p{display:block!important;box-sizing:border-box!important;width:fit-content!important;max-width:min(86%,680px)!important;padding:15px 18px!important;margin:0!important;border:1px solid rgba(191,193,219,.10)!important;border-radius:17px 17px 17px 6px!important;background:#30303c!important;box-shadow:none!important;color:#f7f6ff!important;font:400 1.09rem/1.53 Arial,Helvetica,sans-serif!important;letter-spacing:0!important;overflow-wrap:anywhere!important;white-space:pre-wrap!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-reply-quote{display:block!important;max-width:min(86%,680px)!important;width:fit-content!important;margin:0 0 2px!important;padding:8px 12px!important;border:0!important;border-left:3px solid rgba(156,129,255,.67)!important;border-radius:8px!important;background:rgba(107,82,204,.15)!important;box-shadow:none!important;text-align:left!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-reply-quote strong{font:600 .75rem/1.3 Arial,sans-serif!important;color:#bca8ec!important;margin:0 0 3px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-reply-quote span{font:400 .81rem/1.35 Arial,sans-serif!important;color:#b8b7cc!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions{display:inline-flex!important;align-self:flex-start!important;width:auto!important;max-width:100%!important;margin:0 0 0 7px!important;padding:0!important;gap:8px!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;overflow:visible!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions button{width:auto!important;min-width:0!important;min-height:25px!important;padding:3px 6px!important;margin:0!important;border:0!important;border-radius:7px!important;background:transparent!important;box-shadow:none!important;color:#a4a4c0!important;font:500 .69rem/1.3 Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;opacity:.76!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions button:hover,html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions button:focus-visible{color:#e5d7ff!important;opacity:1!important;background:rgba(153,116,244,.09)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions .gx9-msg-reply-arrow{font-size:.8rem!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat #gx9Message{font:400 1.05rem/1.45 Arial,Helvetica,sans-serif!important}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-messages{padding:12px 13px 20px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg>p{font-size:1.04rem!important;max-width:92%!important;padding:13px 15px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions{justify-content:flex-start!important;width:auto!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions button{flex:0 0 auto!important}}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat{background:linear-gradient(145deg,rgba(40,45,77,.72),rgba(21,24,51,.68) 60%,rgba(28,23,57,.68))!important;border:1px solid rgba(192,196,246,.20)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.11),0 20px 44px rgba(2,4,18,.2)!important;backdrop-filter:blur(22px) saturate(1.3)!important;-webkit-backdrop-filter:blur(22px) saturate(1.3)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-messages{background:radial-gradient(circle at 70% 0%,rgba(125,110,207,.08),transparent 52%)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg>p{font:400 1.17rem/1.53 Arial,Helvetica,sans-serif!important;color:#fff!important;background:linear-gradient(135deg,rgba(102,107,132,.80),rgba(77,82,108,.85))!important;border:1px solid rgba(237,236,255,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 6px 18px rgba(0,0,0,.12)!important;backdrop-filter:blur(14px) saturate(1.1)!important;-webkit-backdrop-filter:blur(14px) saturate(1.1)!important;max-width:min(93%,720px)!important;padding:16px 19px!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-name{font-size:1rem!important;color:#dfcbff!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg time{font-size:.78rem!important;color:#b5b4cd!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg-actions button{font-size:.66rem!important;min-height:27px!important;color:#b7b9d5!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-compose{background:rgba(34,31,77,.36)!important;border:1px solid rgba(199,184,255,.11)!important;border-radius:16px!important;margin:3px 14px 13px!important;padding:10px!important;box-shadow:0 4px 17px rgba(3,6,23,.11)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat #gx9Message{font:400 1.1rem/1.45 Arial,Helvetica,sans-serif!important;color:#fff!important;min-height:55px!important;border-radius:14px!important;background:rgba(79,74,141,.65)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat #gx9Message::placeholder{color:#d4caff!important;opacity:.83!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react{position:relative!important;display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;min-height:61px!important;margin:0 14px 2px!important;padding:8px 10px!important;border:1px solid rgba(210,207,255,.14)!important;border-radius:16px!important;background:linear-gradient(120deg,rgba(99,95,152,.25),rgba(46,48,92,.32))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10)!important;backdrop-filter:blur(13px)!important;-webkit-backdrop-filter:blur(13px)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react .gx9-reaction{display:inline-grid!important;place-items:center!important;width:42px!important;height:42px!important;min-height:42px!important;min-width:42px!important;padding:3px!important;margin:0!important;border:1px solid rgba(201,195,255,.15)!important;border-radius:12px!important;background:rgba(142,131,207,.16)!important;box-shadow:none!important;font-size:1.5rem!important;line-height:1!important;opacity:1!important;transform:none!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react .gx9-native-emoji{font-size:1.5rem!important;line-height:1!important;opacity:1!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react #gx9GifToggle{display:inline-grid!important;place-items:center!important;width:auto!important;min-width:70px!important;height:42px!important;padding:4px 16px!important;border:1px solid rgba(198,183,255,.42)!important;border-radius:12px!important;background:linear-gradient(135deg,rgba(132,106,223,.67),rgba(81,93,185,.64))!important;color:#fff!important;font:800 .87rem/1 Arial,sans-serif!important;letter-spacing:.08em!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react .gx9-reaction:hover{background:rgba(154,141,238,.30)!important;border-color:rgba(211,199,255,.5)!important;filter:brightness(1.1)!important}',
+'html body #galactica-live-v9 .gxol-original-pair .gx9-chat #gx9GifPanel{z-index:30!important;bottom:100%!important;top:auto!important;left:0!important;right:0!important;max-height:min(410px,55vh)!important;overflow-y:auto!important;border:1px solid rgba(183,171,246,.38)!important;background:rgba(28,27,58,.96)!important;backdrop-filter:blur(22px)!important;-webkit-backdrop-filter:blur(22px)!important;box-shadow:0 -16px 45px rgba(0,0,0,.3)!important}',
+'@media(max-width:760px){html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-msg>p{font-size:1.12rem!important;max-width:96%!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react{gap:6px!important;margin-inline:8px!important;padding:7px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react .gx9-reaction{width:38px!important;height:40px!important;min-width:38px!important;min-height:40px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-react #gx9GifToggle{min-width:63px!important;height:40px!important;padding-inline:10px!important}html body #galactica-live-v9 .gxol-original-pair .gx9-chat .gx9-compose{margin-inline:8px!important}}',
+].join('\n');
+function overlay(){
+ try{
+  const doc=f?.contentDocument;if(!doc?.querySelector('.gxol-original-pair'))return;
+  if(!doc.getElementById('gxolOverlayStyle')){
+   const style=doc.createElement('style');style.id='gxolOverlayStyle';style.textContent=overlayCSS;doc.head.appendChild(style);
+  }
+  const chat=doc.querySelector('.gxol-original-pair .gx9-chat');
+  const reactions=chat?.querySelector('#gx9React');
+  const composer=chat?.querySelector('#gx9Composer');
+  if(reactions&&composer&&reactions.nextElementSibling!==composer){
+   composer.parentNode.insertBefore(reactions,composer);
+  }
+ }catch(e){}
+}
+f?.addEventListener('load',()=>{setTimeout(overlay,300);setTimeout(overlay,1300)});
+})();
+</script>
+
+<script>
+(function(){
+const root=document.getElementById('gxOrbitLab');if(!root)return;
+const $=id=>root.querySelector('#'+id);
+const frame=$('gxolClassicFrame');const play=$('gxolPlayActual');
+const readJson=p=>fetch('/wp-json/'+p,{cache:'no-store',credentials:'same-origin'}).then(r=>{if(!r.ok)throw Error('offline');return r.json()});
+let currentTitle='',currentArtist='',coverFromWidget=false;
+async function refresh(){
+ try{
+  const st=await readJson('galactica/v1/mission-control');const c=st.current||{},n=st.next||{};
+  const title=c.title||'GALACTICA LIVE RADIO';
+  currentTitle=title;currentArtist=c.artist||'GALACTICA';
+  if($('gxolNowTitle'))$('gxolNowTitle').textContent=title;
+  if($('gxolNowMeta'))$('gxolNowMeta').textContent=currentArtist+(c.genre?' · '+c.genre:'');
+  if($('gxolHeroNextTitle'))$('gxolHeroNextTitle').textContent=n.title||'Next show coming soon';
+  if($('gxolHeroNextArtist'))$('gxolHeroNextArtist').textContent=n.guest||n.label||'Synchronized radio rotation';
+  if($('gxolNowCard'))$('gxolNowCard').textContent=title;
+  if(c.coverUrl&&!coverFromWidget)applyCover(c.coverUrl);
+  const fuel=st.fuel||{},meter=$('gxolFuelCells'),count=$('gxolFuelCount');
+  if(meter&&count){
+   const reported=Number(fuel.current);
+   if(Number.isFinite(reported)&&reported>=0){
+    const n=Math.floor(reported),max=20,lit=Math.min(max,n);
+    if(meter.children.length!==max){const fragment=document.createDocumentFragment();for(let i=0;i<max;i++){const cell=document.createElement('span');cell.className='gxol-fuel-cell';cell.setAttribute('aria-hidden','true');fragment.appendChild(cell)}meter.replaceChildren(fragment)}
+    [...meter.children].forEach((cell,i)=>cell.classList.toggle('active',i<lit));
+    meter.setAttribute('aria-valuenow',String(lit));
+    meter.setAttribute('aria-label',n+' energy supports recorded in Mission Control, display capacity '+max);
+    count.replaceChildren();const strong=document.createElement('strong');strong.textContent=String(n);count.append(strong,document.createTextNode(n===1?' ENERGY SUPPORT':' ENERGY SUPPORTS'));
+   }else{meter.replaceChildren();count.textContent='Support count unavailable'}
+  }
+ }catch(e){if($('gxolHeroNextTitle'))$('gxolHeroNextTitle').textContent='Connecting...'}
+}
+function applyCover(url){
+ if(typeof url!=='string'||!/^https?:\/\//i.test(url))return;
+ const el=$('gxolNowArtwork'),safe=encodeURI(url).replaceAll('"','');
+ if(el){el.style.backgroundImage='url("'+safe+'")';const label=el.querySelector('span');if(label)label.hidden=true}
+ const small=$('gxolHeroNextArt');if(small?.dataset.nextCover)small.style.backgroundImage='url("'+encodeURI(small.dataset.nextCover).replaceAll('"','')+'")';
+}
+function widgetCover(){
+ try{
+  const doc=frame?.contentDocument;if(!doc)return;
+  const covers=[...doc.querySelectorAll('#gx9HeroCoverA,#gx9HeroCoverB')];
+  const img=covers.find(el=>el.complete&&el.naturalWidth>10&&el.getAttribute('src')&&getComputedStyle(el).opacity!=='0')||
+  covers.find(el=>el.complete&&el.naturalWidth>10&&el.getAttribute('src'));
+  const url=img?.currentSrc||img?.src||'';
+  if(url){coverFromWidget=true;applyCover(url)}
+ }catch(e){}
+}
+refresh();setInterval(refresh,30000);setInterval(widgetCover,4000);
+const fx=$('gxolWaveFX'),cx=fx?.getContext('2d');let tick=0,prevW=0,prevH=0;
+function glowWave(){
+ if(!cx)return;const b=fx.getBoundingClientRect();if(b.width<4||b.height<4){requestAnimationFrame(glowWave);return}
+ const d=Math.min(1.6,devicePixelRatio||1),w=Math.floor(b.width*d),h=Math.floor(b.height*d);
+ if(w!==prevW||h!==prevH){fx.width=w;fx.height=h;prevW=w;prevH=h}
+ cx.clearRect(0,0,w,h);
+ const mid=h*.47,n=470,cell=w/n;
+ let gradient=cx.createLinearGradient(0,0,w,0);gradient.addColorStop(0,'rgba(185,86,255,.72)');gradient.addColorStop(.49,'rgba(211,125,255,.92)');gradient.addColorStop(.65,'rgba(115,165,255,.85)');gradient.addColorStop(1,'rgba(48,218,255,.8)');
+ for(let row=0;row<2;row++){
+  cx.beginPath();for(let i=0;i<n;i++){
+   const x=i*cell;
+   const envelope=.17+.35*Math.abs(Math.sin(i*.039)*Math.sin(i*.11))+.32*Math.abs(Math.sin(i*.61)*Math.cos(i*.16));
+   const tremor=.08*Math.sin(i*.7+tick*1.6);
+   const y=mid+(row?1:-1)*(envelope+tremor)*h*.26;
+   if(!i)cx.moveTo(x,y);else cx.lineTo(x,y)
+  }
+  cx.strokeStyle=row?'rgba(90,194,255,.5)':'rgba(226,147,255,.62)';
+  cx.lineWidth=(row?1.1:.85)*d;cx.shadowColor=row?'rgba(66,165,255,.6)':'rgba(199,92,255,.55)';
+  cx.shadowBlur=13*d;cx.stroke();cx.shadowBlur=0;
+ }
+ // Moving spectral shimmer: visually animated; not a playhead and never seekable.
+ const shine=(Math.sin(tick*.24)+1)*.5;const x=w*(.25+.5*shine);
+ const grad=cx.createRadialGradient(x,mid,0,x,mid,w*.18);grad.addColorStop(0,'rgba(216,168,255,.11)');grad.addColorStop(1,'rgba(216,168,255,0)');
+ cx.fillStyle=grad;cx.fillRect(0,0,w,h);
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)tick+=.025;
+ requestAnimationFrame(glowWave)
+}glowWave();
+const whenReady=()=>{
+ try{
+ const d=frame?.contentDocument;if(!d||!d.querySelector('#galactica-live-v9'))return;
+ widgetCover();
+ // Preserve the original chat, including alien, reply and GIF features.
+ // Show the original signal map in a compact panel beside the glass chat, not over its title.
+ const styleId='gxolV05OriginalStyle';if(d.getElementById(styleId))return;
+ const st=d.createElement('style');st.id=styleId;st.textContent=[
+ 'html,body{background:transparent!important;overflow-x:hidden!important}',
+ '#galactica-live-v9 .gxol-original-pair{position:relative!important;display:grid!important;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)!important;gap:8px!important;align-items:stretch!important;min-height:670px!important;overflow:visible!important}',
+ '#galactica-live-v9 .gxol-original-pair>.gx9-signals{position:relative!important;inset:auto!important;width:auto!important;height:auto!important;z-index:1!important;margin:0!important;padding:15px!important;background:rgba(19,13,46,.34)!important;min-height:660px!important;content-visibility:visible!important}',
+ '#galactica-live-v9 .gxol-original-pair>.gx9-signals h2{font-size:clamp(1.05rem,2vw,1.65rem)!important;line-height:1.15!important;max-width:100%!important;letter-spacing:0!important;overflow-wrap:break-word!important}',
+ '#galactica-live-v9 .gxol-original-pair>.gx9-signals .gx9-signals-grid{display:block!important;min-width:0!important}',
+ '#galactica-live-v9 .gxol-original-pair>.gx9-signals svg{width:100%!important;max-width:100%!important;height:auto!important;max-height:330px!important;display:block!important}',
+ '#galactica-live-v9 .gxol-original-pair>.gx9-chat{position:relative!important;inset:auto!important;z-index:2!important;display:flex!important;width:100%!important;height:auto!important;min-height:660px!important;margin:0!important;max-width:none!important;background:rgba(12,12,35,.54)!important;backdrop-filter:blur(9px) saturate(1.1)!important;-webkit-backdrop-filter:blur(9px) saturate(1.1)!important;border:1px solid rgba(191,155,255,.3)!important}',
+ '#galactica-live-v9 .gxol-original-pair .gx9-chat-head,#galactica-live-v9 .gxol-original-pair .gx9-compose{background:rgba(13,10,36,.24)!important}',
+ '#galactica-live-v9 .gx9-msg-reaction{display:none!important}',
+ '@media(max-width:760px){#galactica-live-v9 .gxol-original-pair{display:flex!important;flex-direction:column!important;min-height:0!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals{min-height:390px!important;width:100%!important;padding:13px!important}#galactica-live-v9 .gxol-original-pair>.gx9-chat{width:100%!important;min-height:520px!important;margin:0!important}#galactica-live-v9 .gxol-original-pair>.gx9-signals svg{max-height:260px!important}}'
+ ].join('\n');d.head.appendChild(st);
+ }catch(e){}
+};
+frame?.addEventListener('load',()=>{setTimeout(whenReady,400);setTimeout(whenReady,1300)});
+setInterval(whenReady,5500);
+})();
+</script>
+</div>
+<!-- /wp:html -->
